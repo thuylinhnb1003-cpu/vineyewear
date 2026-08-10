@@ -1,0 +1,229 @@
+{
+  "version": 1,
+  "sdk_version": "0.26.1",
+  "path": "/mcp",
+  "auth": {
+    "type": "oauth",
+    "issuer": "https://hhyphavzwaxsjtvnuwbp.supabase.co/auth/v1",
+    "accepted_audiences": [
+      "authenticated"
+    ]
+  },
+  "mcp": {
+    "server": {
+      "name": "vin-eyewear",
+      "version": "0.1.0",
+      "title": "Vin Eyewear"
+    },
+    "tools": [
+      {
+        "name": "search_products",
+        "title": "Search eyewear products",
+        "description": "Search the Vin Eyewear catalog by keyword, brand, frame shape, material or gender. Returns visible products with price and stock status.",
+        "annotations": {
+          "readOnlyHint": true,
+          "idempotentHint": true,
+          "openWorldHint": false
+        },
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "query": {
+              "type": "string",
+              "description": "Keyword matched against product name (empty for all)."
+            },
+            "brand": {
+              "type": "string",
+              "description": "Brand name filter, e.g. Ray-Ban."
+            },
+            "frame_shape": {
+              "type": "string",
+              "description": "Frame shape filter, e.g. Square, Round, Aviator."
+            },
+            "material": {
+              "type": "string",
+              "description": "Frame material filter, e.g. Titanium, Acetate."
+            },
+            "gender": {
+              "type": "string",
+              "description": "Target audience: male, female, unisex, kids."
+            },
+            "limit": {
+              "type": "integer",
+              "description": "Max results, default 10, max 50."
+            }
+          },
+          "additionalProperties": false,
+          "$schema": "http://json-schema.org/draft-07/schema#"
+        },
+        "outputSchema": null
+      },
+      {
+        "name": "get_product",
+        "title": "Get product detail",
+        "description": "Get full detail for one Vin Eyewear product by its slug.",
+        "annotations": {
+          "readOnlyHint": true,
+          "idempotentHint": true,
+          "openWorldHint": false
+        },
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "slug": {
+              "type": "string",
+              "description": "Product slug, e.g. gong-kinh-titan-nhe."
+            }
+          },
+          "required": [
+            "slug"
+          ],
+          "additionalProperties": false,
+          "$schema": "http://json-schema.org/draft-07/schema#"
+        },
+        "outputSchema": null
+      },
+      {
+        "name": "list_events",
+        "title": "List events and news",
+        "description": "List published Vin Eyewear events, promotions and news posts, newest first.",
+        "annotations": {
+          "readOnlyHint": true,
+          "idempotentHint": true,
+          "openWorldHint": false
+        },
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "category": {
+              "type": "string",
+              "description": "Optional category filter, e.g. SỰ KIỆN, TIN ƯU ĐÃI."
+            },
+            "limit": {
+              "type": "integer",
+              "description": "Max results, default 10, max 50."
+            }
+          },
+          "additionalProperties": false,
+          "$schema": "http://json-schema.org/draft-07/schema#"
+        },
+        "outputSchema": null
+      },
+      {
+        "name": "list_stores",
+        "title": "List stores",
+        "description": "List active Vin Eyewear stores with address, phone and opening hours.",
+        "annotations": {
+          "readOnlyHint": true,
+          "idempotentHint": true,
+          "openWorldHint": false
+        },
+        "inputSchema": {
+          "$schema": "http://json-schema.org/draft-07/schema#",
+          "type": "object",
+          "properties": {}
+        },
+        "outputSchema": null
+      },
+      {
+        "name": "my_orders",
+        "title": "My orders",
+        "description": "List the signed-in customer's own Vin Eyewear orders with items, totals and fulfilment status.",
+        "annotations": {
+          "readOnlyHint": true,
+          "idempotentHint": true,
+          "openWorldHint": false
+        },
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "limit": {
+              "type": "integer",
+              "description": "Max orders, default 10, max 50."
+            }
+          },
+          "additionalProperties": false,
+          "$schema": "http://json-schema.org/draft-07/schema#"
+        },
+        "outputSchema": null
+      },
+      {
+        "name": "my_appointments",
+        "title": "My eye-exam appointments",
+        "description": "List the signed-in customer's own eye-exam / consultation appointments.",
+        "annotations": {
+          "readOnlyHint": true,
+          "idempotentHint": true,
+          "openWorldHint": false
+        },
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "limit": {
+              "type": "integer",
+              "description": "Max appointments, default 10, max 50."
+            }
+          },
+          "additionalProperties": false,
+          "$schema": "http://json-schema.org/draft-07/schema#"
+        },
+        "outputSchema": null
+      },
+      {
+        "name": "book_appointment",
+        "title": "Book an eye-exam appointment",
+        "description": "Book an eye-exam or consultation appointment at a Vin Eyewear store for the signed-in customer. Use list_stores first to get a store id.",
+        "annotations": {
+          "readOnlyHint": false,
+          "destructiveHint": false,
+          "idempotentHint": false,
+          "openWorldHint": false
+        },
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "store_id": {
+              "type": "string",
+              "description": "Store UUID from list_stores."
+            },
+            "full_name": {
+              "type": "string",
+              "description": "Customer full name."
+            },
+            "phone": {
+              "type": "string",
+              "description": "Contact phone number."
+            },
+            "service_type": {
+              "type": "string",
+              "description": "Service, e.g. do-khuc-xa, tu-van-gong, bao-hanh."
+            },
+            "appointment_date": {
+              "type": "string",
+              "description": "Date in YYYY-MM-DD."
+            },
+            "time_slot": {
+              "type": "string",
+              "description": "Time slot, e.g. 09:00."
+            },
+            "note": {
+              "type": "string",
+              "description": "Optional note for the store."
+            }
+          },
+          "required": [
+            "store_id",
+            "full_name",
+            "phone",
+            "service_type",
+            "appointment_date",
+            "time_slot"
+          ],
+          "additionalProperties": false,
+          "$schema": "http://json-schema.org/draft-07/schema#"
+        },
+        "outputSchema": null
+      }
+    ]
+  }
+}

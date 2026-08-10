@@ -1,0 +1,480 @@
+@import "tailwindcss" source(none);
+@source "../src";
+@import "tw-animate-css";
+
+/*
+ * Vin Eyewear design system — hệ màu Đỏ Đô (Crimson) / Pearl
+ * Brand #801A20 · Pearl #FAF6F2 · Ink #1A1214
+ * Font: Cormorant Garamond (display) + Be Vietnam Pro (body/UI)
+ */
+
+@theme inline {
+  --font-sans: "Be Vietnam Pro", "Helvetica Neue", Arial, sans-serif;
+  --font-display: "Cormorant Garamond", Georgia, "Times New Roman", serif;
+
+  /* Thang cỡ chữ chuẩn hoá — dùng thay cho text-[Npx] */
+  --text-2xs: 0.6875rem; /* 11px */
+  --text-2xs--line-height: 1.45;
+  --text-2xs--letter-spacing: 0.02em;
+  --text-xs: 0.75rem; /* 12px */
+  --text-xs--line-height: 1.5;
+  --text-sm: 0.875rem; /* 14px */
+  --text-sm--line-height: 1.55;
+  --text-base: 1rem; /* 16px */
+  --text-base--line-height: 1.7;
+  --text-lg: 1.125rem; /* 18px */
+  --text-lg--line-height: 1.6;
+  --text-xl: 1.25rem; /* 20px */
+  --text-xl--line-height: 1.45;
+  --text-2xl: 1.5rem; /* 24px */
+  --text-2xl--line-height: 1.3;
+  --text-3xl: 1.75rem; /* 28px */
+  --text-3xl--line-height: 1.25;
+  --text-4xl: 2.25rem; /* 36px */
+  --text-4xl--line-height: 1.15;
+  --text-5xl: 3rem; /* 48px */
+  --text-5xl--line-height: 1.08;
+  --text-6xl: 3.75rem; /* 60px */
+  --text-6xl--line-height: 1.05;
+
+
+  --radius-sm: 0px;
+  --radius-md: 2px;
+  --radius-lg: 2px;
+  --radius-xl: 4px;
+
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-primary: var(--primary);
+  --color-primary-dark: var(--primary-dark);
+  --color-primary-light: var(--primary-light);
+  --color-primary-soft: var(--primary-soft);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-info: var(--info);
+  --color-success: var(--success);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-caption: var(--caption);
+  --color-ink: var(--ink);
+  --color-on-ink: var(--on-ink);
+
+  --shadow-card: 0 1px 2px rgb(26 18 20 / 0.05);
+  --shadow-card-hover: 0 8px 24px rgb(26 18 20 / 0.18);
+  --shadow-pop: 0 16px 40px rgb(26 18 20 / 0.22);
+
+  --ease-out-soft: cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+:root {
+  --background: #faf6f2; /* surface — pearl */
+  --foreground: #1a1214; /* ink */
+  --card: #ffffff; /* surface-raised */
+  --card-foreground: #1a1214;
+  --primary: #801a20; /* brand */
+  --primary-dark: #641318; /* brand-strong */
+  --primary-light: #c97a80; /* brand-light — dùng trên nền ink */
+  --primary-soft: #f5e6e7; /* brand-subtle */
+  --primary-foreground: #faf6f2; /* on-brand */
+  --secondary: #ede8e3; /* surface-sunken */
+  --secondary-foreground: #1a1214;
+  --muted: #ede8e3;
+  --muted-foreground: #5c4f52;
+  --caption: #5c4f52;
+  --accent: #f5e6e7;
+  --accent-foreground: #801a20;
+  --ink: #1a1214;
+  --on-ink: #faf6f2;
+  --info: #1a1214;
+  --success: #27ae60;
+  --destructive: #c0392b;
+  --destructive-foreground: #faf6f2;
+  --border: #c5bcb8; /* line */
+  --input: #c5bcb8;
+  --ring: rgb(128 26 32 / 0.55);
+}
+
+@layer base {
+  * {
+    border-color: var(--color-border);
+  }
+
+  html {
+    scroll-behavior: smooth;
+    /* bù cho header sticky khi nhảy tới anchor */
+    scroll-padding-top: 140px;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  html,
+  body {
+    max-width: 100%;
+    overflow-x: hidden;
+  }
+
+  body {
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+    font-family: var(--font-sans);
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 1.7;
+    letter-spacing: -0.005em;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* Focus rõ ràng, nhất quán cho mọi phần tử tương tác */
+  :focus-visible {
+    outline: 2px solid var(--primary);
+    outline-offset: 3px;
+    border-radius: 1px;
+  }
+
+  ::selection {
+    background: var(--primary);
+    color: var(--primary-foreground);
+  }
+
+  img,
+  svg,
+  video {
+    max-width: 100%;
+  }
+
+  /* Ảnh không bị kéo-thả vô tình trên mobile */
+  img {
+    -webkit-user-drag: none;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  h1,
+  h2 {
+    text-wrap: balance;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+
+
+
+  h1,
+  h2,
+  h3 {
+    font-family: var(--font-display);
+    font-feature-settings: "liga" 1, "kern" 1, "dlig" 1;
+    font-optical-sizing: auto;
+    color: var(--ink);
+    text-wrap: balance;
+  }
+
+  h1 {
+    font-size: clamp(34px, 5.2vw, 60px);
+    font-weight: 600;
+    line-height: 1.08;
+    letter-spacing: -0.015em;
+  }
+
+  h2 {
+    font-size: clamp(27px, 4vw, 44px);
+    font-weight: 600;
+    line-height: 1.14;
+    letter-spacing: -0.012em;
+  }
+
+  h3 {
+    font-size: clamp(22px, 3vw, 32px);
+    font-weight: 600;
+    line-height: 1.25;
+    letter-spacing: -0.008em;
+  }
+
+  h4 {
+    font-family: var(--font-sans);
+    font-size: clamp(17px, 2.2vw, 21px);
+    font-weight: 600;
+    line-height: 1.4;
+    letter-spacing: -0.01em;
+    color: var(--ink);
+  }
+
+  small {
+    font-size: 13px;
+    line-height: 1.55;
+  }
+}
+
+@utility container-vin {
+  width: 100%;
+  max-width: 1280px;
+  margin-inline: auto;
+  padding-inline: clamp(16px, 5vw, 80px);
+}
+
+@utility section-vin {
+  padding-block: clamp(48px, 8vw, 120px);
+}
+
+@utility micro-label {
+  font-size: var(--text-2xs);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  color: var(--primary);
+}
+
+@utility rule-hair {
+  border-top: 1px solid var(--border);
+}
+
+@utility stagger-down {
+  transform: translateY(0);
+}
+
+@utility editorial-index {
+  font-family: var(--font-display);
+  font-size: var(--text-xs);
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  color: var(--muted-foreground);
+}
+
+@utility eyebrow {
+  font-size: var(--text-2xs);
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--muted-foreground);
+}
+
+@utility reveal-up {
+  animation: reveal-up 0.5s var(--ease-out-soft) both;
+}
+
+@utility sheet-up {
+  animation: sheet-up 0.32s var(--ease-out-soft) both;
+}
+
+@keyframes sheet-up {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@utility overlay-in {
+  animation: overlay-in 0.25s ease-out both;
+}
+
+@keyframes overlay-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@utility modal-in {
+  animation: modal-in 0.28s var(--ease-out-soft) both;
+}
+
+@keyframes modal-in {
+  from {
+    opacity: 0;
+    transform: scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes reveal-up {
+  from {
+
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@utility marquee {
+  animation: marquee 26s linear infinite;
+}
+
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+/* ---------- UX utilities ---------- */
+
+/* Vùng chạm tối thiểu 44x44 theo WCAG 2.5.5 */
+@utility tap-target {
+  min-height: 44px;
+  min-width: 44px;
+}
+
+/* Bỏ qua điều hướng — hiện khi focus bằng bàn phím */
+@utility skip-link {
+  position: fixed;
+  top: 8px;
+  left: 8px;
+  z-index: 100;
+  transform: translateY(-200%);
+  background: var(--ink);
+  color: var(--on-ink);
+  padding: 10px 16px;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  transition: transform 0.2s var(--ease-out-soft);
+
+  &:focus-visible {
+    transform: translateY(0);
+  }
+}
+
+/* Gạch chân trượt cho link chữ */
+@utility link-underline {
+  position: relative;
+
+  &::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: -2px;
+    height: 1px;
+    width: 0;
+    background: currentColor;
+    transition: width 0.3s var(--ease-out-soft);
+  }
+
+  &:hover::after,
+  &:focus-visible::after {
+    width: 100%;
+  }
+}
+
+/* Hiện dần khi cuộn tới — dùng cùng component <Reveal /> */
+@utility reveal {
+  opacity: 0;
+  transform: translateY(20px);
+  transition:
+    opacity 0.7s var(--ease-out-soft),
+    transform 0.7s var(--ease-out-soft);
+  will-change: opacity, transform;
+}
+
+@utility reveal-in {
+  opacity: 1;
+  transform: none;
+}
+
+/* Skeleton nhịp nhàng cho trạng thái tải */
+@utility skeleton-vin {
+  background: linear-gradient(
+    90deg,
+    var(--secondary) 25%,
+    color-mix(in oklab, var(--secondary) 60%, white) 50%,
+    var(--secondary) 75%
+  );
+  background-size: 200% 100%;
+  animation: shimmer-vin 1.4s linear infinite;
+}
+
+@keyframes shimmer-vin {
+  from {
+    background-position: 200% 0;
+  }
+  to {
+    background-position: -200% 0;
+  }
+}
+
+/* ---------- Thang tiêu đề & lead chuẩn hoá (đồng bộ với PageHero) ---------- */
+
+/* H1 hero trang — dùng ở PageHero và các hero đặc biệt */
+@utility display-hero {
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 5.2vw, 3.75rem);
+  font-weight: 500;
+  line-height: 1.12;
+  letter-spacing: -0.012em;
+  text-wrap: balance;
+}
+
+/* H2 mở đầu section */
+@utility display-section {
+  font-family: var(--font-display);
+  font-size: clamp(1.625rem, 3.6vw, 2.75rem);
+  font-weight: 600;
+  line-height: 1.16;
+  letter-spacing: -0.012em;
+  text-wrap: balance;
+}
+
+/* Đoạn dẫn (lead) dưới tiêu đề trang / section */
+@utility lead-vin {
+  font-size: var(--text-base);
+  line-height: 1.75;
+  letter-spacing: -0.005em;
+  color: var(--muted-foreground);
+  max-width: 46ch;
+  text-wrap: pretty;
+}
+
+/* Lead cỡ nhỏ — dùng trong card, cột phụ, mô tả ngắn */
+@utility lead-sm {
+  font-size: var(--text-sm);
+  line-height: 1.7;
+  color: var(--muted-foreground);
+  text-wrap: pretty;
+}
+
+/* Khoảng cách chuẩn: eyebrow → tiêu đề → lead */
+@utility head-title {
+  margin-top: 1rem;
+}
+
+@utility head-lead {
+  margin-top: 1rem;
+}
