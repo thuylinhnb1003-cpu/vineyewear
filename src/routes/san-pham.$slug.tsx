@@ -264,9 +264,9 @@ function ProductDetail() {
             {/* <Link to="/dat-lich" className="text-primary hover:underline">
               Đặt lịch đo khúc xạ
             </Link> */}
-            <Button variant="ghost" size="icon" aria-label="Yêu thích">
+            {/* <Button variant="ghost" size="icon" aria-label="Yêu thích">
               <Heart className="h-5 w-5" />
-            </Button>
+            </Button> */}
           </div>
 
           {/* Khối cam kết */}
