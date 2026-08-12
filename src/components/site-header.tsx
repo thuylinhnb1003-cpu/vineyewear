@@ -120,10 +120,6 @@ export function SiteHeader() {
               <span className="sr-only">Giỏ hàng, {count} sản phẩm</span>
             </Link>
           </Button>
-          <Button asChild size="sm" className="ml-2 hidden rounded-none sm:inline-flex">
-            <Link to="/dat-lich">Đặt Lịch Đo Mắt</Link>
-          </Button>
-
           <Sheet open={open} onOpenChange={setOpen}>
             <SheetTrigger asChild>
               <Button variant="ghost" size="icon" className="tap-target lg:hidden">
