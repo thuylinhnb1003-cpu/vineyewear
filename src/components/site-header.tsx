@@ -30,7 +30,18 @@ export function SiteHeader() {
   const [scrolled, setScrolled] = React.useState(false);
 
   React.useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 24);
+    let ticking = false;
+    // Ngưỡng lệch nhau (32 khi bật / 12 khi tắt) để tránh lật trạng thái liên tục
+    // ("giật") lúc con lăn dao động quanh đúng một mốc duy nhất.
+    const onScroll = () => {
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(() => {
+        const y = window.scrollY;
+        setScrolled((prev) => (prev ? y > 12 : y > 32));
+        ticking = false;
+      });
+    };
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
@@ -49,7 +60,7 @@ export function SiteHeader() {
       }`}
     >
       <div
-        className={`overflow-hidden bg-ink text-on-ink/85 transition-all duration-300 ease-[var(--ease-out-soft)] ${
+        className={`overflow-hidden bg-ink text-on-ink/85 transition-[max-height,padding,opacity] duration-300 ease-[var(--ease-out-soft)] ${
           scrolled ? "max-h-0 py-0 opacity-0" : "max-h-16 py-2 opacity-100"
         }`}
       >
@@ -66,7 +77,7 @@ export function SiteHeader() {
 
       {/* Hàng chính — bất đối xứng: tìm kiếm bên trái, wordmark lệch giữa, tác vụ bên phải */}
       <div
-        className={`container-vin grid grid-cols-[minmax(0,1fr)_auto] items-center gap-4 transition-all duration-300 ease-[var(--ease-out-soft)] sm:gap-6 lg:grid-cols-[1fr_auto_1fr] ${
+        className={`container-vin grid grid-cols-[minmax(0,1fr)_auto] items-center gap-4 transition-[padding] duration-300 ease-[var(--ease-out-soft)] sm:gap-6 lg:grid-cols-[1fr_auto_1fr] ${
           scrolled ? "py-3" : "py-5"
         }`}
       >
@@ -88,7 +99,7 @@ export function SiteHeader() {
 
         <Link to="/" aria-label="Vin Eyewear — về trang chủ" className="min-w-0 lg:text-center">
           <span
-            className={`block truncate font-display font-semibold leading-none tracking-[0.02em] text-ink transition-all duration-300 ${
+            className={`block truncate font-display font-semibold leading-none tracking-[0.02em] text-ink transition-[font-size] duration-300 ${
               scrolled ? "text-2xl lg:text-3xl" : "text-3xl lg:text-4xl"
             }`}
           >
