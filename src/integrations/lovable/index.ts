@@ -2,7 +2,13 @@
 
 import { createLovableAuth } from "@lovable.dev/cloud-auth-js";
 import { supabase } from "../supabase/client";
-const lovableAuth = createLovableAuth();
+// oauthBrokerUrl mặc định là "/~oauth/initiate" (đường dẫn tương đối) — chỉ hoạt động
+// khi app được phục vụ sau hạ tầng Lovable. Khi deploy độc lập ra Vercel, đường dẫn này
+// không tồn tại nên bị 404. Trỏ thẳng về domain broker công khai của Lovable để hoạt động
+// bất kể site được lưu trữ ở đâu.
+const lovableAuth = createLovableAuth({
+  oauthBrokerUrl: "https://oauth.lovable.app/~oauth/initiate",
+});
 
 type SignInOptions = {
   redirect_uri?: string;
