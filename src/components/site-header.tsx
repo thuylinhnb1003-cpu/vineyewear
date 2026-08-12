@@ -105,9 +105,6 @@ export function SiteHeader() {
           >
             Vin <span className="italic text-primary">Eyewear</span>
           </span>
-          <span className="mt-1.5 block text-2xs font-semibold uppercase tracking-[0.34em] text-muted-foreground">
-            Hanoi
-          </span>
         </Link>
 
         <div className="flex items-center justify-end gap-0.5 sm:gap-1">

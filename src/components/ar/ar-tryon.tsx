@@ -9,7 +9,6 @@ import {
   Layers,
   Palette,
   RefreshCw,
-  ShieldCheck,
   ShoppingBag,
   Sparkles,
   User,
@@ -759,18 +758,6 @@ export function ArTryOn({ products }: { products: CatalogProduct[] }) {
                 </Link>
               </Button>
             </div>
-          </div>
-
-          <div className="rounded-[2rem] border border-border bg-card p-6 shadow-sm">
-            <div className="flex items-center gap-3 text-sm text-slate-500">
-              <ShieldCheck className="h-4 w-4 text-primary" />
-              <span>Quyền riêng tư & hiệu năng</span>
-            </div>
-            <ul className="mt-4 space-y-3 text-sm text-slate-600">
-              <li>Ảnh xử lý ngay trên thiết bị.</li>
-              <li>Không lưu camera mà không có quyền.</li>
-              <li>Chế độ preset có thể dùng khi không có camera.</li>
-            </ul>
           </div>
         </aside>
       </div>

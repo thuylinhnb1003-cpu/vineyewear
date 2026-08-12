@@ -30,7 +30,7 @@ const SLIDES = [
     title: "Kính mát 2026",
     accent: "UV400 phân cực.",
     desc: "Bộ sưu tập Aviator, Wayfarer và Cat-eye mới nhất từ các thương hiệu toàn cầu.",
-    primary: { label: "Mua Kính Mát", to: "/san-pham" as const },
+    primary: { label: "Mua Kính Mắt", to: "/san-pham" as const },
   },
 ];
 
