@@ -129,10 +129,25 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
   errorComponent: ErrorComponent,
 });
 
+// Khi Vercel deploy bản mới trong lúc người dùng đang mở tab cũ, các file JS tách nhỏ
+// theo route (hash tên file thay đổi mỗi lần build) có thể không còn tồn tại nữa —
+// gây "Failed to fetch dynamically imported module" và crash toàn trang. Vite phát ra
+// sự kiện "vite:preloadError" đúng lúc này; tự tải lại trang để lấy bản HTML/JS mới nhất
+// thay vì hiển thị màn hình lỗi.
+const RELOAD_ON_STALE_CHUNK_SCRIPT = `
+window.addEventListener("vite:preloadError", function () {
+  var key = "vin-eyewear-stale-chunk-reload";
+  if (sessionStorage.getItem(key)) return; // đã reload 1 lần rồi mà vẫn lỗi — không lặp vô hạn
+  sessionStorage.setItem(key, "1");
+  window.location.reload();
+});
+`;
+
 function RootShell({ children }: { children: ReactNode }) {
   return (
     <html lang="vi">
       <head>
+        <script dangerouslySetInnerHTML={{ __html: RELOAD_ON_STALE_CHUNK_SCRIPT }} />
         <HeadContent />
       </head>
       <body>
@@ -147,6 +162,12 @@ function RootComponent() {
   const { queryClient } = Route.useRouteContext();
   const { pathname } = useLocation();
   const isAdmin = pathname === "/quan-tri" || pathname.startsWith("/quan-tri/");
+
+  // Trang đã mount thành công — xoá cờ chống-lặp để lần "stale chunk" kế tiếp
+  // (ví dụ sau một phiên mở tab rất lâu) vẫn được tự động reload.
+  useEffect(() => {
+    sessionStorage.removeItem("vin-eyewear-stale-chunk-reload");
+  }, []);
 
   if (isAdmin) {
     return (
