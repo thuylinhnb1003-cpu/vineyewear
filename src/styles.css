@@ -5,12 +5,12 @@
 /*
  * Vin Eyewear design system — hệ màu Đỏ Đô (Crimson) / Pearl
  * Brand #801A20 · Pearl #FAF6F2 · Ink #1A1214
- * Font: Cormorant Garamond (display) + Be Vietnam Pro (body/UI)
+ * Font: Playfair Display (display) + Be Vietnam Pro (body/UI)
  */
 
 @theme inline {
   --font-sans: "Be Vietnam Pro", "Helvetica Neue", Arial, sans-serif;
-  --font-display: "Cormorant Garamond", Georgia, "Times New Roman", serif;
+  --font-display: "Playfair Display", Georgia, "Times New Roman", serif;
 
   /* Thang cỡ chữ chuẩn hoá — dùng thay cho text-[Npx] */
   --text-2xs: 0.6875rem; /* 11px */
@@ -211,14 +211,14 @@
 
   h1 {
     font-size: clamp(34px, 5.2vw, 60px);
-    font-weight: 600;
+    font-weight: 700;
     line-height: 1.08;
     letter-spacing: -0.015em;
   }
 
   h2 {
     font-size: clamp(27px, 4vw, 44px);
-    font-weight: 600;
+    font-weight: 700;
     line-height: 1.14;
     letter-spacing: -0.012em;
   }
@@ -450,7 +450,7 @@
 @utility display-hero {
   font-family: var(--font-display);
   font-size: clamp(2rem, 5.2vw, 3.75rem);
-  font-weight: 500;
+  font-weight: 700;
   line-height: 1.12;
   letter-spacing: -0.012em;
   text-wrap: balance;
@@ -460,7 +460,7 @@
 @utility display-section {
   font-family: var(--font-display);
   font-size: clamp(1.625rem, 3.6vw, 2.75rem);
-  font-weight: 600;
+  font-weight: 700;
   line-height: 1.16;
   letter-spacing: -0.012em;
   text-wrap: balance;
