@@ -31,7 +31,7 @@ export function SiteFooter() {
             Vin <span className="italic text-primary-light">Eyewear</span>
           </p>
           <p className="mt-2 text-2xs font-semibold uppercase tracking-[0.3em] text-on-ink/55">
-            Hanoi · Since 2014
+            Hanoi
           </p>
           <p className="mt-4 max-w-xs text-sm leading-relaxed text-on-ink/70">
             Gọng kính, tròng kính và kính áp tròng chính hãng, đo khúc xạ chuẩn xác bởi kỹ thuật
