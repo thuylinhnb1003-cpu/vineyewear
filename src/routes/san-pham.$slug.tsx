@@ -1,16 +1,7 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { queryOptions, useSuspenseQuery } from "@tanstack/react-query";
 import * as React from "react";
-import {
-  Heart,
-  Minus,
-  Plus,
-  Star,
-  ShieldCheck,
-  RefreshCcw,
-  Truck,
-  Eye,
-} from "lucide-react";
+import { Heart, Minus, Plus, Star, ShieldCheck, RefreshCcw, Truck, Eye } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ProductCard, productImage } from "@/components/product-card";
 import { ProductViewer } from "@/components/product/product-viewer";
@@ -44,12 +35,30 @@ const COMMITMENTS: { icon: typeof ShieldCheck; title: string; desc: string }[] =
 ];
 
 const EXAM_STEPS: { title: string; desc: string }[] = [
-  { title: "Khai thác nhu cầu", desc: "Ghi nhận tiền sử thị lực, nghề nghiệp và thói quen dùng mắt." },
-  { title: "Đo thị lực sơ bộ", desc: "Kiểm tra thị lực xa – gần bằng bảng chuẩn và máy đo tự động." },
-  { title: "Khúc xạ chủ quan", desc: "Thử kính trên forophoter để xác định độ cầu, độ loạn và trục loạn." },
-  { title: "Kiểm tra thị giác hai mắt", desc: "Đánh giá cân bằng hai mắt, quy tụ và điều tiết để tránh mỏi mắt." },
-  { title: "Tư vấn tròng kính", desc: "Chọn chiết suất, chống ánh sáng xanh, đổi màu hoặc đa tròng phù hợp." },
-  { title: "Cắt lắp & cân chỉnh", desc: "Đo khoảng cách đồng tử, lắp tròng và tinh chỉnh gọng theo khuôn mặt." },
+  {
+    title: "Khai thác nhu cầu",
+    desc: "Ghi nhận tiền sử thị lực, nghề nghiệp và thói quen dùng mắt.",
+  },
+  {
+    title: "Đo thị lực sơ bộ",
+    desc: "Kiểm tra thị lực xa – gần bằng bảng chuẩn và máy đo tự động.",
+  },
+  {
+    title: "Khúc xạ chủ quan",
+    desc: "Thử kính trên forophoter để xác định độ cầu, độ loạn và trục loạn.",
+  },
+  {
+    title: "Kiểm tra thị giác hai mắt",
+    desc: "Đánh giá cân bằng hai mắt, quy tụ và điều tiết để tránh mỏi mắt.",
+  },
+  {
+    title: "Tư vấn tròng kính",
+    desc: "Chọn chiết suất, chống ánh sáng xanh, đổi màu hoặc đa tròng phù hợp.",
+  },
+  {
+    title: "Cắt lắp & cân chỉnh",
+    desc: "Đo khoảng cách đồng tử, lắp tròng và tinh chỉnh gọng theo khuôn mặt.",
+  },
 ];
 
 const productQuery = (slug: string) =>
@@ -154,9 +163,6 @@ function ProductDetail() {
       quantity,
     );
 
-
-
-
   return (
     <div className="container-vin section-vin">
       <nav className="text-sm text-muted-foreground">
@@ -177,7 +183,6 @@ function ProductDetail() {
           modelUrl={product.ar_model_url ?? null}
           name={product.name}
         />
-
 
         <div>
           <p className="text-xs font-bold uppercase tracking-widest text-caption">
@@ -242,11 +247,7 @@ function ProductDetail() {
                 <Plus className="h-4 w-4" />
               </button>
             </div>
-            <Button
-              size="lg"
-              disabled={outOfStock}
-              onClick={() => setCheckoutOpen(true)}
-            >
+            <Button size="lg" disabled={outOfStock} onClick={() => setCheckoutOpen(true)}>
               {outOfStock ? "Tạm hết hàng" : "Mua ngay"}
             </Button>
             <Button
@@ -301,9 +302,7 @@ function ProductDetail() {
         <ol className="mt-8 grid gap-px border border-border bg-border sm:grid-cols-2 lg:grid-cols-3">
           {EXAM_STEPS.map((step, i) => (
             <li key={step.title} className="bg-background p-5">
-              <span className="editorial-index text-caption">
-                {String(i + 1).padStart(2, "0")}
-              </span>
+              <span className="editorial-index text-caption">{String(i + 1).padStart(2, "0")}</span>
               <p className="mt-2 font-display text-xl">{step.title}</p>
               <p className="mt-1.5 lead-sm">{step.desc}</p>
             </li>

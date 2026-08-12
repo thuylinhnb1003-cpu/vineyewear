@@ -22,7 +22,7 @@ import { Route as ThanhToanRouteImport } from './routes/thanh-toan'
 import { Route as ThuArRouteImport } from './routes/thu-ar'
 import { Route as Char91DotmcpChar93ListToolsRouteImport } from './routes/[.mcp]/list-tools'
 import { Route as Char91DotwellKnownChar93OauthProtectedResourceRouteImport } from './routes/[.well-known]/oauth-protected-resource'
-import { Route as AuthenticatedQuanTriRouteImport } from './routes/_authenticated/quan-tri'
+import { Route as AuthenticatedQuanTriRouteRouteImport } from './routes/_authenticated/quan-tri/route'
 import { Route as AuthenticatedTaiKhoanRouteImport } from './routes/_authenticated/tai-khoan'
 import { Route as SanPhamIndexRouteImport } from './routes/san-pham.index'
 import { Route as SanPhamSlugRouteImport } from './routes/san-pham.$slug'
@@ -30,6 +30,15 @@ import { Route as SuKienIndexRouteImport } from './routes/su-kien.index'
 import { Route as SuKienSlugRouteImport } from './routes/su-kien.$slug'
 import { Route as DotlovableOauthConsentRouteImport } from './routes/[.]lovable.oauth.consent'
 import { Route as Char91DotmcpChar93InvokeToolToolRouteImport } from './routes/[.mcp]/invoke-tool/$tool'
+import { Route as AuthenticatedQuanTriIndexRouteImport } from './routes/_authenticated/quan-tri/index'
+import { Route as AuthenticatedQuanTriCoSoRouteImport } from './routes/_authenticated/quan-tri/co-so'
+import { Route as AuthenticatedQuanTriDanhMucRouteImport } from './routes/_authenticated/quan-tri/danh-muc'
+import { Route as AuthenticatedQuanTriDonHangRouteImport } from './routes/_authenticated/quan-tri/don-hang'
+import { Route as AuthenticatedQuanTriLichHenRouteImport } from './routes/_authenticated/quan-tri/lich-hen'
+import { Route as AuthenticatedQuanTriLienHeRouteImport } from './routes/_authenticated/quan-tri/lien-he'
+import { Route as AuthenticatedQuanTriSanPhamRouteImport } from './routes/_authenticated/quan-tri/san-pham'
+import { Route as AuthenticatedQuanTriSuKienRouteImport } from './routes/_authenticated/quan-tri/su-kien'
+import { Route as AuthenticatedQuanTriTonKhoRouteImport } from './routes/_authenticated/quan-tri/ton-kho'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -97,11 +106,12 @@ const Char91DotwellKnownChar93OauthProtectedResourceRoute =
     path: '/.well-known/oauth-protected-resource',
     getParentRoute: () => rootRouteImport,
   } as any)
-const AuthenticatedQuanTriRoute = AuthenticatedQuanTriRouteImport.update({
-  id: '/quan-tri',
-  path: '/quan-tri',
-  getParentRoute: () => AuthenticatedRouteRoute,
-} as any)
+const AuthenticatedQuanTriRouteRoute =
+  AuthenticatedQuanTriRouteRouteImport.update({
+    id: '/quan-tri',
+    path: '/quan-tri',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 const AuthenticatedTaiKhoanRoute = AuthenticatedTaiKhoanRouteImport.update({
   id: '/tai-khoan',
   path: '/tai-khoan',
@@ -138,6 +148,60 @@ const Char91DotmcpChar93InvokeToolToolRoute =
     path: '/.mcp/invoke-tool/$tool',
     getParentRoute: () => rootRouteImport,
   } as any)
+const AuthenticatedQuanTriIndexRoute =
+  AuthenticatedQuanTriIndexRouteImport.update({
+    id: '/',
+    path: '/',
+    getParentRoute: () => AuthenticatedQuanTriRouteRoute,
+  } as any)
+const AuthenticatedQuanTriCoSoRoute =
+  AuthenticatedQuanTriCoSoRouteImport.update({
+    id: '/co-so',
+    path: '/co-so',
+    getParentRoute: () => AuthenticatedQuanTriRouteRoute,
+  } as any)
+const AuthenticatedQuanTriDanhMucRoute =
+  AuthenticatedQuanTriDanhMucRouteImport.update({
+    id: '/danh-muc',
+    path: '/danh-muc',
+    getParentRoute: () => AuthenticatedQuanTriRouteRoute,
+  } as any)
+const AuthenticatedQuanTriDonHangRoute =
+  AuthenticatedQuanTriDonHangRouteImport.update({
+    id: '/don-hang',
+    path: '/don-hang',
+    getParentRoute: () => AuthenticatedQuanTriRouteRoute,
+  } as any)
+const AuthenticatedQuanTriLichHenRoute =
+  AuthenticatedQuanTriLichHenRouteImport.update({
+    id: '/lich-hen',
+    path: '/lich-hen',
+    getParentRoute: () => AuthenticatedQuanTriRouteRoute,
+  } as any)
+const AuthenticatedQuanTriLienHeRoute =
+  AuthenticatedQuanTriLienHeRouteImport.update({
+    id: '/lien-he',
+    path: '/lien-he',
+    getParentRoute: () => AuthenticatedQuanTriRouteRoute,
+  } as any)
+const AuthenticatedQuanTriSanPhamRoute =
+  AuthenticatedQuanTriSanPhamRouteImport.update({
+    id: '/san-pham',
+    path: '/san-pham',
+    getParentRoute: () => AuthenticatedQuanTriRouteRoute,
+  } as any)
+const AuthenticatedQuanTriSuKienRoute =
+  AuthenticatedQuanTriSuKienRouteImport.update({
+    id: '/su-kien',
+    path: '/su-kien',
+    getParentRoute: () => AuthenticatedQuanTriRouteRoute,
+  } as any)
+const AuthenticatedQuanTriTonKhoRoute =
+  AuthenticatedQuanTriTonKhoRouteImport.update({
+    id: '/ton-kho',
+    path: '/ton-kho',
+    getParentRoute: () => AuthenticatedQuanTriRouteRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -150,9 +214,9 @@ export interface FileRoutesByFullPath {
   '/mcp': typeof McpRoute
   '/thanh-toan': typeof ThanhToanRoute
   '/thu-ar': typeof ThuArRoute
+  '/quan-tri': typeof AuthenticatedQuanTriRouteRouteWithChildren
   '/.mcp/list-tools': typeof Char91DotmcpChar93ListToolsRoute
   '/.well-known/oauth-protected-resource': typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
-  '/quan-tri': typeof AuthenticatedQuanTriRoute
   '/tai-khoan': typeof AuthenticatedTaiKhoanRoute
   '/san-pham/$slug': typeof SanPhamSlugRoute
   '/su-kien/$slug': typeof SuKienSlugRoute
@@ -160,6 +224,15 @@ export interface FileRoutesByFullPath {
   '/su-kien/': typeof SuKienIndexRoute
   '/.lovable/oauth/consent': typeof DotlovableOauthConsentRoute
   '/.mcp/invoke-tool/$tool': typeof Char91DotmcpChar93InvokeToolToolRoute
+  '/quan-tri/co-so': typeof AuthenticatedQuanTriCoSoRoute
+  '/quan-tri/danh-muc': typeof AuthenticatedQuanTriDanhMucRoute
+  '/quan-tri/don-hang': typeof AuthenticatedQuanTriDonHangRoute
+  '/quan-tri/lich-hen': typeof AuthenticatedQuanTriLichHenRoute
+  '/quan-tri/lien-he': typeof AuthenticatedQuanTriLienHeRoute
+  '/quan-tri/san-pham': typeof AuthenticatedQuanTriSanPhamRoute
+  '/quan-tri/su-kien': typeof AuthenticatedQuanTriSuKienRoute
+  '/quan-tri/ton-kho': typeof AuthenticatedQuanTriTonKhoRoute
+  '/quan-tri/': typeof AuthenticatedQuanTriIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -174,7 +247,6 @@ export interface FileRoutesByTo {
   '/thu-ar': typeof ThuArRoute
   '/.mcp/list-tools': typeof Char91DotmcpChar93ListToolsRoute
   '/.well-known/oauth-protected-resource': typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
-  '/quan-tri': typeof AuthenticatedQuanTriRoute
   '/tai-khoan': typeof AuthenticatedTaiKhoanRoute
   '/san-pham/$slug': typeof SanPhamSlugRoute
   '/su-kien/$slug': typeof SuKienSlugRoute
@@ -182,6 +254,15 @@ export interface FileRoutesByTo {
   '/su-kien': typeof SuKienIndexRoute
   '/.lovable/oauth/consent': typeof DotlovableOauthConsentRoute
   '/.mcp/invoke-tool/$tool': typeof Char91DotmcpChar93InvokeToolToolRoute
+  '/quan-tri/co-so': typeof AuthenticatedQuanTriCoSoRoute
+  '/quan-tri/danh-muc': typeof AuthenticatedQuanTriDanhMucRoute
+  '/quan-tri/don-hang': typeof AuthenticatedQuanTriDonHangRoute
+  '/quan-tri/lich-hen': typeof AuthenticatedQuanTriLichHenRoute
+  '/quan-tri/lien-he': typeof AuthenticatedQuanTriLienHeRoute
+  '/quan-tri/san-pham': typeof AuthenticatedQuanTriSanPhamRoute
+  '/quan-tri/su-kien': typeof AuthenticatedQuanTriSuKienRoute
+  '/quan-tri/ton-kho': typeof AuthenticatedQuanTriTonKhoRoute
+  '/quan-tri': typeof AuthenticatedQuanTriIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -196,9 +277,9 @@ export interface FileRoutesById {
   '/mcp': typeof McpRoute
   '/thanh-toan': typeof ThanhToanRoute
   '/thu-ar': typeof ThuArRoute
+  '/_authenticated/quan-tri': typeof AuthenticatedQuanTriRouteRouteWithChildren
   '/.mcp/list-tools': typeof Char91DotmcpChar93ListToolsRoute
   '/.well-known/oauth-protected-resource': typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
-  '/_authenticated/quan-tri': typeof AuthenticatedQuanTriRoute
   '/_authenticated/tai-khoan': typeof AuthenticatedTaiKhoanRoute
   '/san-pham/$slug': typeof SanPhamSlugRoute
   '/su-kien/$slug': typeof SuKienSlugRoute
@@ -206,6 +287,15 @@ export interface FileRoutesById {
   '/su-kien/': typeof SuKienIndexRoute
   '/.lovable/oauth/consent': typeof DotlovableOauthConsentRoute
   '/.mcp/invoke-tool/$tool': typeof Char91DotmcpChar93InvokeToolToolRoute
+  '/_authenticated/quan-tri/co-so': typeof AuthenticatedQuanTriCoSoRoute
+  '/_authenticated/quan-tri/danh-muc': typeof AuthenticatedQuanTriDanhMucRoute
+  '/_authenticated/quan-tri/don-hang': typeof AuthenticatedQuanTriDonHangRoute
+  '/_authenticated/quan-tri/lich-hen': typeof AuthenticatedQuanTriLichHenRoute
+  '/_authenticated/quan-tri/lien-he': typeof AuthenticatedQuanTriLienHeRoute
+  '/_authenticated/quan-tri/san-pham': typeof AuthenticatedQuanTriSanPhamRoute
+  '/_authenticated/quan-tri/su-kien': typeof AuthenticatedQuanTriSuKienRoute
+  '/_authenticated/quan-tri/ton-kho': typeof AuthenticatedQuanTriTonKhoRoute
+  '/_authenticated/quan-tri/': typeof AuthenticatedQuanTriIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -220,9 +310,9 @@ export interface FileRouteTypes {
     | '/mcp'
     | '/thanh-toan'
     | '/thu-ar'
+    | '/quan-tri'
     | '/.mcp/list-tools'
     | '/.well-known/oauth-protected-resource'
-    | '/quan-tri'
     | '/tai-khoan'
     | '/san-pham/$slug'
     | '/su-kien/$slug'
@@ -230,6 +320,15 @@ export interface FileRouteTypes {
     | '/su-kien/'
     | '/.lovable/oauth/consent'
     | '/.mcp/invoke-tool/$tool'
+    | '/quan-tri/co-so'
+    | '/quan-tri/danh-muc'
+    | '/quan-tri/don-hang'
+    | '/quan-tri/lich-hen'
+    | '/quan-tri/lien-he'
+    | '/quan-tri/san-pham'
+    | '/quan-tri/su-kien'
+    | '/quan-tri/ton-kho'
+    | '/quan-tri/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -244,7 +343,6 @@ export interface FileRouteTypes {
     | '/thu-ar'
     | '/.mcp/list-tools'
     | '/.well-known/oauth-protected-resource'
-    | '/quan-tri'
     | '/tai-khoan'
     | '/san-pham/$slug'
     | '/su-kien/$slug'
@@ -252,6 +350,15 @@ export interface FileRouteTypes {
     | '/su-kien'
     | '/.lovable/oauth/consent'
     | '/.mcp/invoke-tool/$tool'
+    | '/quan-tri/co-so'
+    | '/quan-tri/danh-muc'
+    | '/quan-tri/don-hang'
+    | '/quan-tri/lich-hen'
+    | '/quan-tri/lien-he'
+    | '/quan-tri/san-pham'
+    | '/quan-tri/su-kien'
+    | '/quan-tri/ton-kho'
+    | '/quan-tri'
   id:
     | '__root__'
     | '/'
@@ -265,9 +372,9 @@ export interface FileRouteTypes {
     | '/mcp'
     | '/thanh-toan'
     | '/thu-ar'
+    | '/_authenticated/quan-tri'
     | '/.mcp/list-tools'
     | '/.well-known/oauth-protected-resource'
-    | '/_authenticated/quan-tri'
     | '/_authenticated/tai-khoan'
     | '/san-pham/$slug'
     | '/su-kien/$slug'
@@ -275,6 +382,15 @@ export interface FileRouteTypes {
     | '/su-kien/'
     | '/.lovable/oauth/consent'
     | '/.mcp/invoke-tool/$tool'
+    | '/_authenticated/quan-tri/co-so'
+    | '/_authenticated/quan-tri/danh-muc'
+    | '/_authenticated/quan-tri/don-hang'
+    | '/_authenticated/quan-tri/lich-hen'
+    | '/_authenticated/quan-tri/lien-he'
+    | '/_authenticated/quan-tri/san-pham'
+    | '/_authenticated/quan-tri/su-kien'
+    | '/_authenticated/quan-tri/ton-kho'
+    | '/_authenticated/quan-tri/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -396,7 +512,7 @@ declare module '@tanstack/react-router' {
       id: '/_authenticated/quan-tri'
       path: '/quan-tri'
       fullPath: '/quan-tri'
-      preLoaderRoute: typeof AuthenticatedQuanTriRouteImport
+      preLoaderRoute: typeof AuthenticatedQuanTriRouteRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/tai-khoan': {
@@ -448,16 +564,109 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof Char91DotmcpChar93InvokeToolToolRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_authenticated/quan-tri/': {
+      id: '/_authenticated/quan-tri/'
+      path: '/'
+      fullPath: '/quan-tri/'
+      preLoaderRoute: typeof AuthenticatedQuanTriIndexRouteImport
+      parentRoute: typeof AuthenticatedQuanTriRouteRoute
+    }
+    '/_authenticated/quan-tri/co-so': {
+      id: '/_authenticated/quan-tri/co-so'
+      path: '/co-so'
+      fullPath: '/quan-tri/co-so'
+      preLoaderRoute: typeof AuthenticatedQuanTriCoSoRouteImport
+      parentRoute: typeof AuthenticatedQuanTriRouteRoute
+    }
+    '/_authenticated/quan-tri/danh-muc': {
+      id: '/_authenticated/quan-tri/danh-muc'
+      path: '/danh-muc'
+      fullPath: '/quan-tri/danh-muc'
+      preLoaderRoute: typeof AuthenticatedQuanTriDanhMucRouteImport
+      parentRoute: typeof AuthenticatedQuanTriRouteRoute
+    }
+    '/_authenticated/quan-tri/don-hang': {
+      id: '/_authenticated/quan-tri/don-hang'
+      path: '/don-hang'
+      fullPath: '/quan-tri/don-hang'
+      preLoaderRoute: typeof AuthenticatedQuanTriDonHangRouteImport
+      parentRoute: typeof AuthenticatedQuanTriRouteRoute
+    }
+    '/_authenticated/quan-tri/lich-hen': {
+      id: '/_authenticated/quan-tri/lich-hen'
+      path: '/lich-hen'
+      fullPath: '/quan-tri/lich-hen'
+      preLoaderRoute: typeof AuthenticatedQuanTriLichHenRouteImport
+      parentRoute: typeof AuthenticatedQuanTriRouteRoute
+    }
+    '/_authenticated/quan-tri/lien-he': {
+      id: '/_authenticated/quan-tri/lien-he'
+      path: '/lien-he'
+      fullPath: '/quan-tri/lien-he'
+      preLoaderRoute: typeof AuthenticatedQuanTriLienHeRouteImport
+      parentRoute: typeof AuthenticatedQuanTriRouteRoute
+    }
+    '/_authenticated/quan-tri/san-pham': {
+      id: '/_authenticated/quan-tri/san-pham'
+      path: '/san-pham'
+      fullPath: '/quan-tri/san-pham'
+      preLoaderRoute: typeof AuthenticatedQuanTriSanPhamRouteImport
+      parentRoute: typeof AuthenticatedQuanTriRouteRoute
+    }
+    '/_authenticated/quan-tri/su-kien': {
+      id: '/_authenticated/quan-tri/su-kien'
+      path: '/su-kien'
+      fullPath: '/quan-tri/su-kien'
+      preLoaderRoute: typeof AuthenticatedQuanTriSuKienRouteImport
+      parentRoute: typeof AuthenticatedQuanTriRouteRoute
+    }
+    '/_authenticated/quan-tri/ton-kho': {
+      id: '/_authenticated/quan-tri/ton-kho'
+      path: '/ton-kho'
+      fullPath: '/quan-tri/ton-kho'
+      preLoaderRoute: typeof AuthenticatedQuanTriTonKhoRouteImport
+      parentRoute: typeof AuthenticatedQuanTriRouteRoute
+    }
   }
 }
 
+interface AuthenticatedQuanTriRouteRouteChildren {
+  AuthenticatedQuanTriCoSoRoute: typeof AuthenticatedQuanTriCoSoRoute
+  AuthenticatedQuanTriDanhMucRoute: typeof AuthenticatedQuanTriDanhMucRoute
+  AuthenticatedQuanTriDonHangRoute: typeof AuthenticatedQuanTriDonHangRoute
+  AuthenticatedQuanTriLichHenRoute: typeof AuthenticatedQuanTriLichHenRoute
+  AuthenticatedQuanTriLienHeRoute: typeof AuthenticatedQuanTriLienHeRoute
+  AuthenticatedQuanTriSanPhamRoute: typeof AuthenticatedQuanTriSanPhamRoute
+  AuthenticatedQuanTriSuKienRoute: typeof AuthenticatedQuanTriSuKienRoute
+  AuthenticatedQuanTriTonKhoRoute: typeof AuthenticatedQuanTriTonKhoRoute
+  AuthenticatedQuanTriIndexRoute: typeof AuthenticatedQuanTriIndexRoute
+}
+
+const AuthenticatedQuanTriRouteRouteChildren: AuthenticatedQuanTriRouteRouteChildren =
+  {
+    AuthenticatedQuanTriCoSoRoute: AuthenticatedQuanTriCoSoRoute,
+    AuthenticatedQuanTriDanhMucRoute: AuthenticatedQuanTriDanhMucRoute,
+    AuthenticatedQuanTriDonHangRoute: AuthenticatedQuanTriDonHangRoute,
+    AuthenticatedQuanTriLichHenRoute: AuthenticatedQuanTriLichHenRoute,
+    AuthenticatedQuanTriLienHeRoute: AuthenticatedQuanTriLienHeRoute,
+    AuthenticatedQuanTriSanPhamRoute: AuthenticatedQuanTriSanPhamRoute,
+    AuthenticatedQuanTriSuKienRoute: AuthenticatedQuanTriSuKienRoute,
+    AuthenticatedQuanTriTonKhoRoute: AuthenticatedQuanTriTonKhoRoute,
+    AuthenticatedQuanTriIndexRoute: AuthenticatedQuanTriIndexRoute,
+  }
+
+const AuthenticatedQuanTriRouteRouteWithChildren =
+  AuthenticatedQuanTriRouteRoute._addFileChildren(
+    AuthenticatedQuanTriRouteRouteChildren,
+  )
+
 interface AuthenticatedRouteRouteChildren {
-  AuthenticatedQuanTriRoute: typeof AuthenticatedQuanTriRoute
+  AuthenticatedQuanTriRouteRoute: typeof AuthenticatedQuanTriRouteRouteWithChildren
   AuthenticatedTaiKhoanRoute: typeof AuthenticatedTaiKhoanRoute
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
-  AuthenticatedQuanTriRoute: AuthenticatedQuanTriRoute,
+  AuthenticatedQuanTriRouteRoute: AuthenticatedQuanTriRouteRouteWithChildren,
   AuthenticatedTaiKhoanRoute: AuthenticatedTaiKhoanRoute,
 }
 

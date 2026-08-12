@@ -1,6 +1,32 @@
 import { createServerFn } from "@tanstack/react-start";
 import { z } from "zod";
+import type { SupabaseClient } from "@supabase/supabase-js";
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
+import type { Database } from "@/integrations/supabase/types";
+
+async function getUserRoles(supabase: SupabaseClient<Database>, userId: string): Promise<string[]> {
+  const { data } = await supabase.from("user_roles").select("role").eq("user_id", userId);
+  return (data ?? []).map((r) => r.role as string);
+}
+
+/** Throws if the caller doesn't hold at least the "staff" role (staff/manager/admin). */
+async function requireStaff(context: { supabase: SupabaseClient<Database>; userId: string }) {
+  const roles = await getUserRoles(context.supabase, context.userId);
+  if (!roles.some((r) => r === "admin" || r === "manager" || r === "staff")) {
+    throw new Error("Forbidden: yêu cầu quyền nhân viên trở lên.");
+  }
+}
+
+/** Throws if the caller doesn't hold at least the "manager" role (manager/admin) — catalog-editing actions. */
+async function requireCatalogEditor(context: {
+  supabase: SupabaseClient<Database>;
+  userId: string;
+}) {
+  const roles = await getUserRoles(context.supabase, context.userId);
+  if (!roles.some((r) => r === "admin" || r === "manager")) {
+    throw new Error("Forbidden: yêu cầu quyền quản lý trở lên.");
+  }
+}
 
 const productInput = z.object({
   id: z.string().uuid().optional(),
@@ -23,6 +49,26 @@ const productInput = z.object({
   status: z.enum(["in_stock", "low_stock", "out_of_stock", "preorder"]),
   isFeatured: z.boolean(),
   isVisible: z.boolean(),
+});
+
+const categoryInput = z.object({
+  id: z.string().uuid().optional(),
+  slug: z.string().min(2).max(120),
+  name: z.string().min(2).max(120),
+  description: z.string().max(2000).nullish(),
+  sortOrder: z.number().int(),
+  isVisible: z.boolean(),
+});
+
+const storeInput = z.object({
+  id: z.string().uuid().optional(),
+  code: z.string().min(2).max(40),
+  name: z.string().min(2).max(160),
+  address: z.string().min(2).max(300),
+  phone: z.string().max(40).nullish(),
+  openHours: z.string().max(200).nullish(),
+  mapUrl: z.string().max(1000).nullish(),
+  isActive: z.boolean(),
 });
 
 const eventInput = z.object({
@@ -56,40 +102,50 @@ export const getMyRoles = createServerFn({ method: "GET" })
 export const getAdminDashboard = createServerFn({ method: "GET" })
   .middleware([requireSupabaseAuth])
   .handler(async ({ context }) => {
+    await requireStaff(context);
     const s = context.supabase;
-    const [products, categories, events, orders, appointments, contacts, stores] = await Promise.all([
-      s
-        .from("products")
-        .select(
-          "id, slug, sku, name, specs, ar_model_url, brand, frame_shape, material, color, gender, description, images, price, compare_at_price, stock_quantity, status, is_featured, is_visible, category_id, created_at",
-        )
-        .order("created_at", { ascending: false }),
-      s.from("categories").select("id, slug, name").order("sort_order"),
-      s
-        .from("events")
-        .select("id, slug, title, excerpt, content, cover_image, location, starts_at, ends_at, is_visible")
-        .order("starts_at", { ascending: false }),
-      s
-        .from("orders")
-        .select(
-          "id, code, customer_name, customer_phone, total, status, payment_method, delivery_method, created_at, order_items(product_name, quantity, unit_price)",
-        )
-        .order("created_at", { ascending: false })
-        .limit(200),
-      s
-        .from("appointments")
-        .select(
-          "id, code, full_name, phone, appointment_date, time_slot, service_type, status, store_id, note",
-        )
-        .order("appointment_date", { ascending: false })
-        .limit(200),
-      s
-        .from("contact_requests")
-        .select("id, full_name, phone, email, message, status, created_at")
-        .order("created_at", { ascending: false })
-        .limit(100),
-      s.from("stores").select("id, code, name"),
-    ]);
+    const [products, categories, events, orders, appointments, contacts, stores] =
+      await Promise.all([
+        s
+          .from("products")
+          .select(
+            "id, slug, sku, name, specs, ar_model_url, brand, frame_shape, material, color, gender, description, images, price, compare_at_price, stock_quantity, status, is_featured, is_visible, category_id, created_at",
+          )
+          .order("created_at", { ascending: false }),
+        s
+          .from("categories")
+          .select("id, slug, name, description, sort_order, is_visible")
+          .order("sort_order"),
+        s
+          .from("events")
+          .select(
+            "id, slug, title, excerpt, content, cover_image, location, starts_at, ends_at, is_visible",
+          )
+          .order("starts_at", { ascending: false }),
+        s
+          .from("orders")
+          .select(
+            "id, code, customer_name, customer_phone, total, status, payment_method, delivery_method, created_at, order_items(product_name, quantity, unit_price)",
+          )
+          .order("created_at", { ascending: false })
+          .limit(200),
+        s
+          .from("appointments")
+          .select(
+            "id, code, full_name, phone, appointment_date, time_slot, service_type, status, store_id, note",
+          )
+          .order("appointment_date", { ascending: false })
+          .limit(200),
+        s
+          .from("contact_requests")
+          .select("id, full_name, phone, email, message, status, created_at")
+          .order("created_at", { ascending: false })
+          .limit(100),
+        s
+          .from("stores")
+          .select("id, code, name, address, phone, open_hours, map_url, is_active")
+          .order("code"),
+      ]);
 
     const err =
       products.error ?? events.error ?? orders.error ?? appointments.error ?? contacts.error;
@@ -110,6 +166,7 @@ export const saveProduct = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((input) => productInput.parse(input))
   .handler(async ({ data, context }) => {
+    await requireCatalogEditor(context);
     const images = (data.imagesText ?? "")
       .split(/[\n,]/)
       .map((v) => v.trim())
@@ -151,6 +208,7 @@ export const deleteProduct = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((input) => z.object({ id: z.string().uuid() }).parse(input))
   .handler(async ({ data, context }) => {
+    await requireCatalogEditor(context);
     const { error } = await context.supabase.from("products").delete().eq("id", data.id);
     if (error) return { ok: false as const, error: error.message };
     return { ok: true as const };
@@ -168,6 +226,7 @@ export const updateStock = createServerFn({ method: "POST" })
       .parse(input),
   )
   .handler(async ({ data, context }) => {
+    await requireCatalogEditor(context);
     const { error } = await context.supabase
       .from("products")
       .update({
@@ -183,6 +242,7 @@ export const saveEvent = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((input) => eventInput.parse(input))
   .handler(async ({ data, context }) => {
+    await requireCatalogEditor(context);
     const row = {
       slug: data.slug,
       title: data.title,
@@ -206,6 +266,7 @@ export const deleteEvent = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((input) => z.object({ id: z.string().uuid() }).parse(input))
   .handler(async ({ data, context }) => {
+    await requireCatalogEditor(context);
     const { error } = await context.supabase.from("events").delete().eq("id", data.id);
     if (error) return { ok: false as const, error: error.message };
     return { ok: true as const };
@@ -222,6 +283,7 @@ export const updateOrderStatus = createServerFn({ method: "POST" })
       .parse(input),
   )
   .handler(async ({ data, context }) => {
+    await requireStaff(context);
     const { error } = await context.supabase
       .from("orders")
       .update({ status: data.status })
@@ -241,6 +303,7 @@ export const updateAppointmentStatus = createServerFn({ method: "POST" })
       .parse(input),
   )
   .handler(async ({ data, context }) => {
+    await requireStaff(context);
     const { error } = await context.supabase
       .from("appointments")
       .update({ status: data.status })
@@ -255,10 +318,73 @@ export const updateContactStatus = createServerFn({ method: "POST" })
     z.object({ id: z.string().uuid(), status: z.enum(["new", "handling", "done"]) }).parse(input),
   )
   .handler(async ({ data, context }) => {
+    await requireStaff(context);
     const { error } = await context.supabase
       .from("contact_requests")
       .update({ status: data.status })
       .eq("id", data.id);
+    if (error) return { ok: false as const, error: error.message };
+    return { ok: true as const };
+  });
+
+export const saveCategory = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((input) => categoryInput.parse(input))
+  .handler(async ({ data, context }) => {
+    await requireCatalogEditor(context);
+    const row = {
+      slug: data.slug,
+      name: data.name,
+      description: data.description ?? null,
+      sort_order: data.sortOrder,
+      is_visible: data.isVisible,
+    };
+    const query = data.id
+      ? context.supabase.from("categories").update(row).eq("id", data.id)
+      : context.supabase.from("categories").insert(row);
+    const { error } = await query;
+    if (error) return { ok: false as const, error: error.message };
+    return { ok: true as const };
+  });
+
+export const deleteCategory = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((input) => z.object({ id: z.string().uuid() }).parse(input))
+  .handler(async ({ data, context }) => {
+    await requireCatalogEditor(context);
+    const { error } = await context.supabase.from("categories").delete().eq("id", data.id);
+    if (error) return { ok: false as const, error: error.message };
+    return { ok: true as const };
+  });
+
+export const saveStore = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((input) => storeInput.parse(input))
+  .handler(async ({ data, context }) => {
+    await requireCatalogEditor(context);
+    const row = {
+      code: data.code,
+      name: data.name,
+      address: data.address,
+      phone: data.phone ?? null,
+      open_hours: data.openHours ?? null,
+      map_url: data.mapUrl ?? null,
+      is_active: data.isActive,
+    };
+    const query = data.id
+      ? context.supabase.from("stores").update(row).eq("id", data.id)
+      : context.supabase.from("stores").insert(row);
+    const { error } = await query;
+    if (error) return { ok: false as const, error: error.message };
+    return { ok: true as const };
+  });
+
+export const deleteStore = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((input) => z.object({ id: z.string().uuid() }).parse(input))
+  .handler(async ({ data, context }) => {
+    await requireCatalogEditor(context);
+    const { error } = await context.supabase.from("stores").delete().eq("id", data.id);
     if (error) return { ok: false as const, error: error.message };
     return { ok: true as const };
   });

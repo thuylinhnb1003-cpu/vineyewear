@@ -8,9 +8,24 @@ export type ArColor = { id: string; label: string; filter: string; swatch: strin
 export const AR_COLORS: ArColor[] = [
   { id: "origin", label: "Nguyên bản", filter: "none", swatch: "#8b8b8b" },
   { id: "black", label: "Đen nhám", filter: "grayscale(1) brightness(0.5)", swatch: "#1a1214" },
-  { id: "gold", label: "Vàng gold", filter: "sepia(1) saturate(2.4) hue-rotate(-12deg)", swatch: "#c9962f" },
-  { id: "crimson", label: "Đỏ đô", filter: "sepia(1) saturate(4) hue-rotate(-32deg) brightness(0.85)", swatch: "#801a20" },
-  { id: "blue", label: "Xanh navy", filter: "sepia(1) saturate(3) hue-rotate(165deg)", swatch: "#22355c" },
+  {
+    id: "gold",
+    label: "Vàng gold",
+    filter: "sepia(1) saturate(2.4) hue-rotate(-12deg)",
+    swatch: "#c9962f",
+  },
+  {
+    id: "crimson",
+    label: "Đỏ đô",
+    filter: "sepia(1) saturate(4) hue-rotate(-32deg) brightness(0.85)",
+    swatch: "#801a20",
+  },
+  {
+    id: "blue",
+    label: "Xanh navy",
+    filter: "sepia(1) saturate(3) hue-rotate(165deg)",
+    swatch: "#22355c",
+  },
 ];
 
 export type ArFrame = {

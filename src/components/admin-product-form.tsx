@@ -165,7 +165,12 @@ export function AdminProductForm({
         </div>
         <div>
           <Label htmlFor="p-sku">Mã SKU *</Label>
-          <Input id="p-sku" required value={form.sku} onChange={(e) => set("sku", e.target.value)} />
+          <Input
+            id="p-sku"
+            required
+            value={form.sku}
+            onChange={(e) => set("sku", e.target.value)}
+          />
         </div>
         <div>
           <Label htmlFor="p-cat">Danh mục</Label>
@@ -184,7 +189,11 @@ export function AdminProductForm({
         </div>
         <div>
           <Label htmlFor="p-brand">Thương hiệu</Label>
-          <Input id="p-brand" value={form.brand ?? ""} onChange={(e) => set("brand", e.target.value)} />
+          <Input
+            id="p-brand"
+            value={form.brand ?? ""}
+            onChange={(e) => set("brand", e.target.value)}
+          />
         </div>
         <div>
           <Label htmlFor="p-shape">Dáng gọng</Label>
@@ -204,7 +213,11 @@ export function AdminProductForm({
         </div>
         <div>
           <Label htmlFor="p-color">Màu sắc</Label>
-          <Input id="p-color" value={form.color ?? ""} onChange={(e) => set("color", e.target.value)} />
+          <Input
+            id="p-color"
+            value={form.color ?? ""}
+            onChange={(e) => set("color", e.target.value)}
+          />
         </div>
         <div>
           <Label htmlFor="p-gender">Giới tính</Label>
@@ -279,7 +292,9 @@ export function AdminProductForm({
       </div>
 
       <div>
-        <Label htmlFor="p-spin">Bộ ảnh xoay 360° (mỗi dòng một đường dẫn, chụp trên bàn xoay)</Label>
+        <Label htmlFor="p-spin">
+          Bộ ảnh xoay 360° (mỗi dòng một đường dẫn, chụp trên bàn xoay)
+        </Label>
         <Textarea
           id="p-spin"
           value={form.spinImagesText}

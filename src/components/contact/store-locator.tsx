@@ -35,7 +35,6 @@ export function StoreLocator({
 
   React.useEffect(() => setMounted(true), []);
 
-
   function locate() {
     if (!navigator.geolocation) return setGeoState("denied");
     setGeoState("asking");
@@ -115,9 +114,7 @@ export function StoreLocator({
                   <span
                     className={cn(
                       "inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-2xs font-semibold",
-                      isOpen
-                        ? "bg-success/10 text-success"
-                        : "bg-muted text-muted-foreground",
+                      isOpen ? "bg-success/10 text-success" : "bg-muted text-muted-foreground",
                     )}
                   >
                     <span
@@ -128,12 +125,7 @@ export function StoreLocator({
                     />
                     {mounted ? (isOpen ? "Mở cửa" : "Đã đóng") : "Giờ mở cửa"} • {status.range}
                   </span>
-                  <Button
-                    asChild
-                    variant="outline"
-                    size="sm"
-                    onClick={(e) => e.stopPropagation()}
-                  >
+                  <Button asChild variant="outline" size="sm" onClick={(e) => e.stopPropagation()}>
                     <a
                       href={mapsDirectionsUrl(store.address)}
                       target="_blank"

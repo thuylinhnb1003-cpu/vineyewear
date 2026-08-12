@@ -11,7 +11,9 @@ export function LensPartners() {
         <div className="flex flex-wrap items-end justify-between gap-4">
           <div>
             <p className="eyebrow">Đối tác tròng kính chính hãng</p>
-            <h2 className="head-title max-w-xl display-section">Công nghệ tròng kính cao cấp tại Vin Eyewear</h2>
+            <h2 className="head-title max-w-xl display-section">
+              Công nghệ tròng kính cao cấp tại Vin Eyewear
+            </h2>
           </div>
           <Button asChild variant="secondary">
             <Link to="/san-pham" search={{ category: "trong-kinh" }}>

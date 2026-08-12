@@ -16,7 +16,11 @@ export default defineTool({
       .eq("is_visible", true)
       .maybeSingle();
     if (error) return { content: [{ type: "text", text: error.message }], isError: true };
-    if (!data) return { content: [{ type: "text", text: `No product with slug "${slug}".` }], isError: true };
+    if (!data)
+      return {
+        content: [{ type: "text", text: `No product with slug "${slug}".` }],
+        isError: true,
+      };
     return {
       content: [{ type: "text", text: JSON.stringify(data) }],
       structuredContent: { product: data },

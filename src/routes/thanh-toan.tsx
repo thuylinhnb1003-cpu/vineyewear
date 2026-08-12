@@ -15,7 +15,10 @@ export const Route = createFileRoute("/thanh-toan")({
       { title: "Đặt hàng — Vin Eyewear" },
       { name: "description", content: "Hoàn tất thông tin nhận hàng và đặt kính tại Vin Eyewear." },
       { property: "og:title", content: "Đặt hàng — Vin Eyewear" },
-      { property: "og:description", content: "Thanh toán COD hoặc chuyển khoản, nhận tại cửa hàng hoặc giao hàng." },
+      {
+        property: "og:description",
+        content: "Thanh toán COD hoặc chuyển khoản, nhận tại cửa hàng hoặc giao hàng.",
+      },
     ],
   }),
   component: Checkout,
@@ -119,94 +122,122 @@ function Checkout() {
         lead="Điền thông tin nhận hàng — chúng tôi sẽ gọi xác nhận trong vòng 24 giờ làm việc."
         crumbs={[{ label: "Giỏ hàng", to: "/gio-hang" }, { label: "Đặt hàng" }]}
       />
-    <div className="container-vin section-vin">
-      <div className="grid gap-10 lg:grid-cols-[minmax(0,1fr)_320px]">
-        <form onSubmit={onSubmit} className="space-y-6 border border-border bg-card p-6 shadow-card md:p-8">
-          <div className="grid gap-4 sm:grid-cols-2">
-            <div>
-              <Label htmlFor="name">Họ và tên *</Label>
-              <Input id="name" value={name} onChange={(e) => setName(e.target.value)} required minLength={2} />
+      <div className="container-vin section-vin">
+        <div className="grid gap-10 lg:grid-cols-[minmax(0,1fr)_320px]">
+          <form
+            onSubmit={onSubmit}
+            className="space-y-6 border border-border bg-card p-6 shadow-card md:p-8"
+          >
+            <div className="grid gap-4 sm:grid-cols-2">
+              <div>
+                <Label htmlFor="name">Họ và tên *</Label>
+                <Input
+                  id="name"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  required
+                  minLength={2}
+                />
+              </div>
+              <div>
+                <Label htmlFor="phone">Số điện thoại *</Label>
+                <Input
+                  id="phone"
+                  value={phone}
+                  onChange={(e) => setPhone(e.target.value)}
+                  required
+                  inputMode="tel"
+                />
+              </div>
             </div>
             <div>
-              <Label htmlFor="phone">Số điện thoại *</Label>
-              <Input id="phone" value={phone} onChange={(e) => setPhone(e.target.value)} required inputMode="tel" />
+              <Label htmlFor="email">Email</Label>
+              <Input
+                id="email"
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+              />
             </div>
-          </div>
-          <div>
-            <Label htmlFor="email">Email</Label>
-            <Input id="email" type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
-          </div>
-          <div className="grid gap-4 sm:grid-cols-2">
+            <div className="grid gap-4 sm:grid-cols-2">
+              <div>
+                <Label htmlFor="delivery">Hình thức nhận hàng *</Label>
+                <Select
+                  id="delivery"
+                  value={delivery}
+                  onChange={(e) => setDelivery(e.target.value as "pickup" | "shipping")}
+                >
+                  <option value="shipping">Giao hàng tận nơi</option>
+                  <option value="pickup">Nhận tại cửa hàng</option>
+                </Select>
+              </div>
+              <div>
+                <Label htmlFor="payment">Thanh toán *</Label>
+                <Select
+                  id="payment"
+                  value={payment}
+                  onChange={(e) => setPayment(e.target.value as "cod" | "bank_transfer")}
+                >
+                  <option value="cod">Thanh toán khi nhận hàng (COD)</option>
+                  <option value="bank_transfer">Chuyển khoản ngân hàng</option>
+                </Select>
+              </div>
+            </div>
+            {delivery === "shipping" && (
+              <div>
+                <Label htmlFor="address">Địa chỉ giao hàng *</Label>
+                <Textarea
+                  id="address"
+                  value={address}
+                  onChange={(e) => setAddress(e.target.value)}
+                />
+              </div>
+            )}
             <div>
-              <Label htmlFor="delivery">Hình thức nhận hàng *</Label>
-              <Select
-                id="delivery"
-                value={delivery}
-                onChange={(e) => setDelivery(e.target.value as "pickup" | "shipping")}
-              >
-                <option value="shipping">Giao hàng tận nơi</option>
-                <option value="pickup">Nhận tại cửa hàng</option>
-              </Select>
+              <Label htmlFor="note">Ghi chú</Label>
+              <Textarea id="note" value={note} onChange={(e) => setNote(e.target.value)} />
             </div>
-            <div>
-              <Label htmlFor="payment">Thanh toán *</Label>
-              <Select
-                id="payment"
-                value={payment}
-                onChange={(e) => setPayment(e.target.value as "cod" | "bank_transfer")}
-              >
-                <option value="cod">Thanh toán khi nhận hàng (COD)</option>
-                <option value="bank_transfer">Chuyển khoản ngân hàng</option>
-              </Select>
-            </div>
-          </div>
-          {delivery === "shipping" && (
-            <div>
-              <Label htmlFor="address">Địa chỉ giao hàng *</Label>
-              <Textarea id="address" value={address} onChange={(e) => setAddress(e.target.value)} />
-            </div>
-          )}
-          <div>
-            <Label htmlFor="note">Ghi chú</Label>
-            <Textarea id="note" value={note} onChange={(e) => setNote(e.target.value)} />
-          </div>
-          {error && (
-            <p className="rounded-md bg-destructive/10 px-3 py-2 text-sm text-destructive">{error}</p>
-          )}
-          <Button type="submit" size="lg" disabled={submitting} className="w-full sm:w-auto">
-            {submitting ? "Đang xử lý..." : "Hoàn tất đặt hàng"}
-          </Button>
-        </form>
+            {error && (
+              <p className="rounded-md bg-destructive/10 px-3 py-2 text-sm text-destructive">
+                {error}
+              </p>
+            )}
+            <Button type="submit" size="lg" disabled={submitting} className="w-full sm:w-auto">
+              {submitting ? "Đang xử lý..." : "Hoàn tất đặt hàng"}
+            </Button>
+          </form>
 
-        <aside className="h-fit border border-border bg-card p-6 shadow-card lg:sticky lg:top-28">
-          <h2 className="font-display text-xl">Đơn hàng</h2>
-          <ul className="mt-3 space-y-2 text-sm">
-            {items.map((item) => (
-              <li key={item.productId} className="flex justify-between gap-2">
-                <span className="min-w-0 truncate text-muted-foreground">
-                  {item.name} × {item.quantity}
-                </span>
-                <span className="shrink-0 font-semibold">{formatVnd(item.price * item.quantity)}</span>
-              </li>
-            ))}
-          </ul>
-          <dl className="mt-4 space-y-2 border-t border-border pt-3 text-sm">
-            <div className="flex justify-between">
-              <dt className="text-muted-foreground">Tạm tính</dt>
-              <dd>{formatVnd(subtotal)}</dd>
-            </div>
-            <div className="flex justify-between">
-              <dt className="text-muted-foreground">Vận chuyển</dt>
-              <dd>{shippingFee === 0 ? "Miễn phí" : formatVnd(shippingFee)}</dd>
-            </div>
-            <div className="flex justify-between border-t border-border pt-2 text-base font-bold">
-              <dt>Tổng cộng</dt>
-              <dd className="text-primary">{formatVnd(subtotal + shippingFee)}</dd>
-            </div>
-          </dl>
-        </aside>
+          <aside className="h-fit border border-border bg-card p-6 shadow-card lg:sticky lg:top-28">
+            <h2 className="font-display text-xl">Đơn hàng</h2>
+            <ul className="mt-3 space-y-2 text-sm">
+              {items.map((item) => (
+                <li key={item.productId} className="flex justify-between gap-2">
+                  <span className="min-w-0 truncate text-muted-foreground">
+                    {item.name} × {item.quantity}
+                  </span>
+                  <span className="shrink-0 font-semibold">
+                    {formatVnd(item.price * item.quantity)}
+                  </span>
+                </li>
+              ))}
+            </ul>
+            <dl className="mt-4 space-y-2 border-t border-border pt-3 text-sm">
+              <div className="flex justify-between">
+                <dt className="text-muted-foreground">Tạm tính</dt>
+                <dd>{formatVnd(subtotal)}</dd>
+              </div>
+              <div className="flex justify-between">
+                <dt className="text-muted-foreground">Vận chuyển</dt>
+                <dd>{shippingFee === 0 ? "Miễn phí" : formatVnd(shippingFee)}</dd>
+              </div>
+              <div className="flex justify-between border-t border-border pt-2 text-base font-bold">
+                <dt>Tổng cộng</dt>
+                <dd className="text-primary">{formatVnd(subtotal + shippingFee)}</dd>
+              </div>
+            </dl>
+          </aside>
+        </div>
       </div>
-    </div>
     </>
   );
 }

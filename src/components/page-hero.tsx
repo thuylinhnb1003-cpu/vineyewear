@@ -53,20 +53,15 @@ export function PageHero({
                 {eyebrow}
               </p>
             )}
-            <h1 className="head-title max-w-[22ch] display-hero text-on-ink">
-              {title}
-            </h1>
+            <h1 className="head-title max-w-[22ch] display-hero text-on-ink">{title}</h1>
           </div>
           {(lead || children) && (
             <div className="min-w-0 border-l-0 border-on-ink/15 pl-0 lg:border-l lg:pb-2 lg:pl-8">
-              {lead && (
-                <p className="lead-vin !text-on-ink/65">{lead}</p>
-              )}
+              {lead && <p className="lead-vin !text-on-ink/65">{lead}</p>}
               {children && <div className="mt-5">{children}</div>}
             </div>
           )}
         </div>
-
       </div>
     </section>
   );

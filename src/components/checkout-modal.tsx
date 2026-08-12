@@ -1,15 +1,6 @@
 import * as React from "react";
 import { Link } from "@tanstack/react-router";
-import {
-  Banknote,
-  CheckCircle2,
-  Minus,
-  Plus,
-  QrCode,
-  Truck,
-  Wallet,
-  X,
-} from "lucide-react";
+import { Banknote, CheckCircle2, Minus, Plus, QrCode, Truck, Wallet, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input, Label, Textarea } from "@/components/vin-field";
 import { formatVnd } from "@/lib/format";
@@ -38,10 +29,20 @@ const PAY_OPTIONS: {
   desc: string;
   icon: typeof QrCode;
 }[] = [
-  { id: "vietqr", label: "VietQR / Chuyển khoản", desc: "Quét mã QR, xác nhận tức thì.", icon: QrCode },
+  {
+    id: "vietqr",
+    label: "VietQR / Chuyển khoản",
+    desc: "Quét mã QR, xác nhận tức thì.",
+    icon: QrCode,
+  },
   { id: "momo", label: "Ví MoMo", desc: "Thanh toán qua ứng dụng MoMo.", icon: Wallet },
   { id: "zalopay", label: "ZaloPay", desc: "Thanh toán qua ví ZaloPay.", icon: Banknote },
-  { id: "cod", label: "COD — thanh toán khi nhận", desc: "Kiểm tra hàng trước khi trả tiền.", icon: Truck },
+  {
+    id: "cod",
+    label: "COD — thanh toán khi nhận",
+    desc: "Kiểm tra hàng trước khi trả tiền.",
+    icon: Truck,
+  },
 ];
 
 /** Mã QR mô phỏng — hoa văn tạo từ chuỗi nội dung, không gọi dịch vụ ngoài. */
@@ -61,8 +62,7 @@ function QrMock({ seed }: { seed: string }) {
       out.push((h & 7) > 3);
     }
     const isFinder = (r: number, c: number) => {
-      const box = (r0: number, c0: number) =>
-        r >= r0 && r < r0 + 7 && c >= c0 && c < c0 + 7;
+      const box = (r0: number, c0: number) => r >= r0 && r < r0 + 7 && c >= c0 && c < c0 + 7;
       const ring = (r0: number, c0: number) => {
         const dr = r - r0;
         const dc = c - c0;
@@ -150,7 +150,8 @@ export function CheckoutModal({
 
   const unit = item.price + (item.addonPrice ?? 0);
   const subtotal = unit * quantity;
-  const shippingFee = pay === "cod" ? (subtotal < 1000000 ? 30000 : 0) : subtotal < 1000000 ? 30000 : 0;
+  const shippingFee =
+    pay === "cod" ? (subtotal < 1000000 ? 30000 : 0) : subtotal < 1000000 ? 30000 : 0;
   const total = subtotal + shippingFee;
   const eta = new Date(Date.now() + 3 * 86400000).toLocaleDateString("vi-VN", {
     day: "2-digit",
@@ -268,7 +269,10 @@ export function CheckoutModal({
             </div>
           </div>
         ) : (
-          <form onSubmit={onSubmit} className="grid flex-1 overflow-y-auto lg:grid-cols-[minmax(0,1fr)_20rem]">
+          <form
+            onSubmit={onSubmit}
+            className="grid flex-1 overflow-y-auto lg:grid-cols-[minmax(0,1fr)_20rem]"
+          >
             <div className="order-2 space-y-6 px-5 py-5 lg:order-1 lg:px-6">
               <section>
                 <p className="micro-label text-caption">Thông tin nhận hàng</p>
@@ -297,7 +301,9 @@ export function CheckoutModal({
                       placeholder="0901234567"
                       aria-invalid={!!errors.phone}
                     />
-                    {errors.phone && <p className="mt-1 text-2xs text-destructive">{errors.phone}</p>}
+                    {errors.phone && (
+                      <p className="mt-1 text-2xs text-destructive">{errors.phone}</p>
+                    )}
                   </div>
                 </div>
                 <div className="mt-4">
@@ -310,7 +316,9 @@ export function CheckoutModal({
                     placeholder="Số nhà, đường, phường/xã, quận/huyện, tỉnh/thành"
                     aria-invalid={!!errors.address}
                   />
-                  {errors.address && <p className="mt-1 text-2xs text-destructive">{errors.address}</p>}
+                  {errors.address && (
+                    <p className="mt-1 text-2xs text-destructive">{errors.address}</p>
+                  )}
                 </div>
                 <div className="mt-4">
                   <Label htmlFor="qc-note">Ghi chú (không bắt buộc)</Label>
@@ -335,7 +343,9 @@ export function CheckoutModal({
                       aria-pressed={pay === id}
                       className={cn(
                         "flex items-start gap-3 p-4 text-left transition-colors duration-200",
-                        pay === id ? "bg-primary text-primary-foreground" : "bg-background hover:bg-secondary",
+                        pay === id
+                          ? "bg-primary text-primary-foreground"
+                          : "bg-background hover:bg-secondary",
                       )}
                     >
                       <Icon className="mt-0.5 h-4 w-4 shrink-0" strokeWidth={1.5} />
@@ -366,7 +376,9 @@ export function CheckoutModal({
                         </div>
                         <div className="flex justify-between gap-3">
                           <dt>Số tài khoản</dt>
-                          <dd className="font-semibold text-foreground">0071 0009 8888 · Vietcombank</dd>
+                          <dd className="font-semibold text-foreground">
+                            0071 0009 8888 · Vietcombank
+                          </dd>
                         </div>
                         <div className="flex justify-between gap-3">
                           <dt>Số tiền</dt>
@@ -383,13 +395,16 @@ export function CheckoutModal({
                 {(pay === "momo" || pay === "zalopay") && (
                   <p className="mt-4 border border-border bg-card p-4 text-2xs leading-relaxed text-muted-foreground">
                     Sau khi xác nhận, nhân viên sẽ gửi link thanh toán{" "}
-                    {pay === "momo" ? "MoMo" : "ZaloPay"} qua Zalo/SMS tới số điện thoại bạn cung cấp.
+                    {pay === "momo" ? "MoMo" : "ZaloPay"} qua Zalo/SMS tới số điện thoại bạn cung
+                    cấp.
                   </p>
                 )}
               </section>
 
               {errors.form && (
-                <p className="bg-destructive/10 px-3 py-2 text-sm text-destructive">{errors.form}</p>
+                <p className="bg-destructive/10 px-3 py-2 text-sm text-destructive">
+                  {errors.form}
+                </p>
               )}
             </div>
 

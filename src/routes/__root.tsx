@@ -3,6 +3,7 @@ import {
   Outlet,
   createRootRouteWithContext,
   useRouter,
+  useLocation,
   HeadContent,
   Scripts,
   Link,
@@ -90,10 +91,26 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { name: "twitter:card", content: "summary_large_image" },
       { property: "og:title", content: "VIN Eyewear - Kính Mắt Thời Trang" },
       { name: "twitter:title", content: "VIN Eyewear - Kính Mắt Thời Trang" },
-      { property: "og:description", content: "VIN Eyewear - cửa hàng kính mắt thời trang chính hãng: gọng kính, kính mát, tròng kính và đo khúc xạ miễn phí tại Hà Nội." },
-      { name: "twitter:description", content: "VIN Eyewear - cửa hàng kính mắt thời trang chính hãng: gọng kính, kính mát, tròng kính và đo khúc xạ miễn phí tại Hà Nội." },
-      { property: "og:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/7c720460-82a7-466c-82ce-625c2ea59c16/id-preview-05fc5a75--a3f0df7d-8a1d-4a0f-8114-e5c56911564f.lovable.app-1785754681398.png" },
-      { name: "twitter:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/7c720460-82a7-466c-82ce-625c2ea59c16/id-preview-05fc5a75--a3f0df7d-8a1d-4a0f-8114-e5c56911564f.lovable.app-1785754681398.png" },
+      {
+        property: "og:description",
+        content:
+          "VIN Eyewear - cửa hàng kính mắt thời trang chính hãng: gọng kính, kính mát, tròng kính và đo khúc xạ miễn phí tại Hà Nội.",
+      },
+      {
+        name: "twitter:description",
+        content:
+          "VIN Eyewear - cửa hàng kính mắt thời trang chính hãng: gọng kính, kính mát, tròng kính và đo khúc xạ miễn phí tại Hà Nội.",
+      },
+      {
+        property: "og:image",
+        content:
+          "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/7c720460-82a7-466c-82ce-625c2ea59c16/id-preview-05fc5a75--a3f0df7d-8a1d-4a0f-8114-e5c56911564f.lovable.app-1785754681398.png",
+      },
+      {
+        name: "twitter:image",
+        content:
+          "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/7c720460-82a7-466c-82ce-625c2ea59c16/id-preview-05fc5a75--a3f0df7d-8a1d-4a0f-8114-e5c56911564f.lovable.app-1785754681398.png",
+      },
     ],
     links: [
       { rel: "stylesheet", href: appCss },
@@ -128,6 +145,19 @@ function RootShell({ children }: { children: ReactNode }) {
 
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
+  const { pathname } = useLocation();
+  const isAdmin = pathname === "/quan-tri" || pathname.startsWith("/quan-tri/");
+
+  if (isAdmin) {
+    return (
+      <QueryClientProvider client={queryClient}>
+        <CartProvider>
+          <Outlet />
+          <Toaster />
+        </CartProvider>
+      </QueryClientProvider>
+    );
+  }
 
   return (
     <QueryClientProvider client={queryClient}>
@@ -147,6 +177,5 @@ function RootComponent() {
         <Toaster />
       </CartProvider>
     </QueryClientProvider>
-
   );
 }

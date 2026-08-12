@@ -16,7 +16,11 @@ export function TrustBar() {
             key={title}
             className="flex min-w-0 items-start gap-3 px-0 py-6 lg:min-h-[92px] lg:px-7 lg:first:pl-0"
           >
-            <Icon aria-hidden="true" className="mt-0.5 h-4 w-4 shrink-0 text-primary" strokeWidth={1.5} />
+            <Icon
+              aria-hidden="true"
+              className="mt-0.5 h-4 w-4 shrink-0 text-primary"
+              strokeWidth={1.5}
+            />
             <div className="min-w-0">
               <p className="text-2xs font-bold uppercase leading-snug tracking-[0.14em] text-ink">
                 {title}

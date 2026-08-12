@@ -9,7 +9,6 @@ import { Input, Label, Select } from "@/components/vin-field";
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 import { PageHero } from "@/components/page-hero";
 
-
 type Search = {
   q?: string | undefined;
   category?: string | undefined;
@@ -34,7 +33,6 @@ export const Route = createFileRoute("/san-pham/")({
     sort: typeof search["sort"] === "string" ? search["sort"] : undefined,
     max: search["max"] ? Number(search["max"]) : undefined,
   }),
-
 
   head: () => ({
     meta: [
@@ -232,74 +230,70 @@ function ProductList() {
       />
 
       <div className="container-vin section-vin">
-      <div className="grid gap-6 lg:grid-cols-[260px_minmax(0,1fr)]">
-        <aside className="hidden border border-border bg-card p-5 shadow-[var(--shadow-card)] lg:sticky lg:top-40 lg:block lg:self-start">
-          {filterPanel}
-        </aside>
+        <div className="grid gap-6 lg:grid-cols-[260px_minmax(0,1fr)]">
+          <aside className="hidden border border-border bg-card p-5 shadow-[var(--shadow-card)] lg:sticky lg:top-40 lg:block lg:self-start">
+            {filterPanel}
+          </aside>
 
-
-
-        <div className="min-w-0">
-          <div className="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-3">
-            <div className="flex min-w-0 items-center gap-3">
-              <Sheet open={filtersOpen} onOpenChange={setFiltersOpen}>
-                <SheetTrigger asChild>
-                  <Button variant="secondary" size="sm" className="shrink-0 lg:hidden">
-                    <SlidersHorizontal className="mr-1.5 h-4 w-4" />
-                    Bộ lọc{activeCount > 0 ? ` (${activeCount})` : ""}
-                  </Button>
-                </SheetTrigger>
-                <SheetContent side="left" className="w-[86vw] max-w-sm overflow-y-auto">
-                  <SheetHeader>
-                    <SheetTitle>Bộ lọc sản phẩm</SheetTitle>
-                  </SheetHeader>
-                  <div className="mt-4">{filterPanel}</div>
-                </SheetContent>
-              </Sheet>
-              <p className="min-w-0 truncate text-sm text-muted-foreground">
-                Hiển thị {visible.length}/{sorted.length}
-              </p>
+          <div className="min-w-0">
+            <div className="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-3">
+              <div className="flex min-w-0 items-center gap-3">
+                <Sheet open={filtersOpen} onOpenChange={setFiltersOpen}>
+                  <SheetTrigger asChild>
+                    <Button variant="secondary" size="sm" className="shrink-0 lg:hidden">
+                      <SlidersHorizontal className="mr-1.5 h-4 w-4" />
+                      Bộ lọc{activeCount > 0 ? ` (${activeCount})` : ""}
+                    </Button>
+                  </SheetTrigger>
+                  <SheetContent side="left" className="w-[86vw] max-w-sm overflow-y-auto">
+                    <SheetHeader>
+                      <SheetTitle>Bộ lọc sản phẩm</SheetTitle>
+                    </SheetHeader>
+                    <div className="mt-4">{filterPanel}</div>
+                  </SheetContent>
+                </Sheet>
+                <p className="min-w-0 truncate text-sm text-muted-foreground">
+                  Hiển thị {visible.length}/{sorted.length}
+                </p>
+              </div>
+              <Select
+                aria-label="Sắp xếp"
+                className="w-auto"
+                value={search.sort ?? "newest"}
+                onChange={(e) => update({ sort: e.target.value })}
+              >
+                <option value="newest">Mới nhất</option>
+                <option value="price-asc">Giá thấp → cao</option>
+                <option value="price-desc">Giá cao → thấp</option>
+                <option value="rating">Đánh giá cao</option>
+              </Select>
             </div>
-            <Select
-              aria-label="Sắp xếp"
-              className="w-auto"
-              value={search.sort ?? "newest"}
-              onChange={(e) => update({ sort: e.target.value })}
-            >
-              <option value="newest">Mới nhất</option>
-              <option value="price-asc">Giá thấp → cao</option>
-              <option value="price-desc">Giá cao → thấp</option>
-              <option value="rating">Đánh giá cao</option>
-            </Select>
+
+            {visible.length === 0 ? (
+              <div className="mt-8 rounded-lg border border-dashed border-border p-10 text-center">
+                <p className="font-semibold">Không tìm thấy sản phẩm phù hợp</p>
+                <p className="mt-1 text-sm text-muted-foreground">
+                  Thử xoá một vài bộ lọc hoặc tìm với từ khoá khác.
+                </p>
+              </div>
+            ) : (
+              <div className="mt-4 grid grid-cols-2 gap-4 xl:grid-cols-3">
+                {visible.map((product) => (
+                  <ProductCard key={product.id} product={product} />
+                ))}
+              </div>
+            )}
+
+            {visible.length < sorted.length && (
+              <div className="mt-8 text-center">
+                <Button variant="secondary" onClick={() => setPage((p) => p + 1)}>
+                  Xem thêm sản phẩm
+                </Button>
+              </div>
+            )}
           </div>
-
-          {visible.length === 0 ? (
-            <div className="mt-8 rounded-lg border border-dashed border-border p-10 text-center">
-              <p className="font-semibold">Không tìm thấy sản phẩm phù hợp</p>
-              <p className="mt-1 text-sm text-muted-foreground">
-                Thử xoá một vài bộ lọc hoặc tìm với từ khoá khác.
-              </p>
-            </div>
-          ) : (
-            <div className="mt-4 grid grid-cols-2 gap-4 xl:grid-cols-3">
-              {visible.map((product) => (
-                <ProductCard key={product.id} product={product} />
-              ))}
-            </div>
-          )}
-
-          {visible.length < sorted.length && (
-            <div className="mt-8 text-center">
-              <Button variant="secondary" onClick={() => setPage((p) => p + 1)}>
-                Xem thêm sản phẩm
-              </Button>
-            </div>
-          )}
         </div>
-      </div>
       </div>
     </div>
   );
-
 }
-

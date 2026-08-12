@@ -9,7 +9,6 @@ import { useCart } from "@/lib/cart";
 import { useSession } from "@/hooks/use-session";
 import { COMPANY_LEGAL } from "@/lib/trust-data";
 
-
 const NAV = [
   { to: "/", label: "Trang chủ" },
   { to: "/thu-ar", label: "Thử kính AR" },
@@ -64,7 +63,6 @@ export function SiteHeader() {
           </a>
         </p>
       </div>
-
 
       {/* Hàng chính — bất đối xứng: tìm kiếm bên trái, wordmark lệch giữa, tác vụ bên phải */}
       <div
@@ -182,7 +180,6 @@ export function SiteHeader() {
                   Gọi {COMPANY_LEGAL.hotline}
                 </a>
               </div>
-
             </SheetContent>
           </Sheet>
         </div>

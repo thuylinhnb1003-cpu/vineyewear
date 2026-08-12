@@ -120,7 +120,12 @@ export function ArTryOn({ products }: { products: CatalogProduct[] }) {
   const [shot, setShot] = React.useState<string | null>(null);
   const [beforeAfter, setBeforeAfter] = React.useState(50);
   const [faceDetected, setFaceDetected] = React.useState(false);
-  const [faceBox, setFaceBox] = React.useState<{ x: number; y: number; width: number; height: number } | null>(null);
+  const [faceBox, setFaceBox] = React.useState<{
+    x: number;
+    y: number;
+    width: number;
+    height: number;
+  } | null>(null);
   const [faceStatus, setFaceStatus] = React.useState<string | null>(null);
   const [checkout, setCheckout] = React.useState<CheckoutItem | null>(null);
   const [uploadHint, setUploadHint] = React.useState<string | null>(null);
@@ -138,7 +143,8 @@ export function ArTryOn({ products }: { products: CatalogProduct[] }) {
     return null;
   }, [mode, uploadImage, presetFace]);
 
-  const cameraSupported = typeof window !== "undefined" && typeof (window as any).FaceDetector === "function";
+  const cameraSupported =
+    typeof window !== "undefined" && typeof (window as any).FaceDetector === "function";
 
   const checkoutItem = React.useMemo<CheckoutItem | null>(() => {
     if (!selectedProduct) return null;
@@ -147,12 +153,16 @@ export function ArTryOn({ products }: { products: CatalogProduct[] }) {
       slug: selectedProduct.slug,
       name: `${selectedProduct.name}`,
       price: Number(selectedProduct.price),
-      image: Array.isArray(selectedProduct.images) ? (selectedProduct.images[0] as string | null) : null,
+      image: Array.isArray(selectedProduct.images)
+        ? (selectedProduct.images[0] as string | null)
+        : null,
       variant: `${frame.name} • ${frameColor.label} • ${lensEffect.label}`,
     };
   }, [selectedProduct, frame, frameColor, lensEffect]);
 
-  const faceAdvice = faceShape ? FACE_SHAPE_ADVICE[faceShape] : "Chưa xác định kiểu mặt. Hãy quay thẳng camera hoặc tải ảnh đẹp rõ mặt.";
+  const faceAdvice = faceShape
+    ? FACE_SHAPE_ADVICE[faceShape]
+    : "Chưa xác định kiểu mặt. Hãy quay thẳng camera hoặc tải ảnh đẹp rõ mặt.";
 
   React.useEffect(() => {
     return () => {
@@ -280,7 +290,12 @@ export function ArTryOn({ products }: { products: CatalogProduct[] }) {
     return presetFace.image;
   }, [mode, uploadImage, presetFace]);
 
-  const previewLabel = mode === "camera" ? "Camera trực tiếp" : mode === "upload" ? "Ảnh tự tải" : `${presetFace.label}`;
+  const previewLabel =
+    mode === "camera"
+      ? "Camera trực tiếp"
+      : mode === "upload"
+        ? "Ảnh tự tải"
+        : `${presetFace.label}`;
 
   const currentProduct = selectedProduct ?? frame;
 
@@ -311,7 +326,17 @@ export function ArTryOn({ products }: { products: CatalogProduct[] }) {
       transform: `translate(-50%, -50%) rotate(${rotate}deg)`,
       filter: `${frameColor.filter} ${lensEffect.filter}`,
     };
-  }, [active, faceBox, width, top, rotate, pd, frameColor.filter, lensEffect.filter, baseGlassesStyle]);
+  }, [
+    active,
+    faceBox,
+    width,
+    top,
+    rotate,
+    pd,
+    frameColor.filter,
+    lensEffect.filter,
+    baseGlassesStyle,
+  ]);
 
   const activeOverlayStyle = {
     left: faceBox?.x ?? 0,
@@ -354,7 +379,10 @@ export function ArTryOn({ products }: { products: CatalogProduct[] }) {
             </div>
 
             <div className="mt-4 grid gap-4 rounded-[2rem] border border-border bg-ink/80 p-4 shadow-inner backdrop-blur-xl">
-              <div ref={stageRef} className="relative aspect-[4/3] overflow-hidden rounded-[1.75rem] border border-white/10 bg-slate-950">
+              <div
+                ref={stageRef}
+                className="relative aspect-[4/3] overflow-hidden rounded-[1.75rem] border border-white/10 bg-slate-950"
+              >
                 {mode === "camera" ? (
                   <>
                     <video
@@ -369,7 +397,9 @@ export function ArTryOn({ products }: { products: CatalogProduct[] }) {
                     {!active && (
                       <div className="absolute inset-0 grid place-items-center bg-slate-950/80 text-center text-sm text-slate-200">
                         <p className="text-lg font-semibold">Camera chưa hoạt động</p>
-                        <p className="mt-2 text-sm text-slate-300">Cho phép camera và mở chế độ live try-on.</p>
+                        <p className="mt-2 text-sm text-slate-300">
+                          Cho phép camera và mở chế độ live try-on.
+                        </p>
                       </div>
                     )}
                   </>
@@ -580,7 +610,9 @@ export function ArTryOn({ products }: { products: CatalogProduct[] }) {
                 <div className="flex items-center justify-between gap-3">
                   <div>
                     <p className="text-sm font-semibold text-slate-900">So sánh trước / sau</p>
-                    <p className="text-xs text-muted-foreground">Di chuyển thanh để thấy hiệu ứng đeo kính.</p>
+                    <p className="text-xs text-muted-foreground">
+                      Di chuyển thanh để thấy hiệu ứng đeo kính.
+                    </p>
                   </div>
                   <span className="rounded-full border border-border bg-background px-3 py-1 text-xs text-muted-foreground">
                     {beforeAfter}%
@@ -638,10 +670,16 @@ export function ArTryOn({ products }: { products: CatalogProduct[] }) {
                   )}
                 >
                   <div className="flex items-center gap-3">
-                    <img src={item.image} alt={item.name} className="h-12 w-12 rounded-2xl object-cover" />
+                    <img
+                      src={item.image}
+                      alt={item.name}
+                      className="h-12 w-12 rounded-2xl object-cover"
+                    />
                     <div className="min-w-0">
                       <p className="truncate text-sm font-semibold">{item.name}</p>
-                      <p className="truncate text-xs text-slate-500">{item.material} · {item.size}</p>
+                      <p className="truncate text-xs text-slate-500">
+                        {item.material} · {item.size}
+                      </p>
                     </div>
                   </div>
                   <span className="text-sm font-semibold">{formatVnd(item.price)}</span>
@@ -656,14 +694,20 @@ export function ArTryOn({ products }: { products: CatalogProduct[] }) {
             </div>
             <div className="mt-5 space-y-4">
               <div className="rounded-3xl border border-border bg-background p-4">
-                <p className="text-xs uppercase tracking-[0.18em] text-muted-foreground">Sản phẩm</p>
+                <p className="text-xs uppercase tracking-[0.18em] text-muted-foreground">
+                  Sản phẩm
+                </p>
                 <p className="mt-2 text-base font-semibold text-slate-900">{frame.name}</p>
-                <p className="mt-1 text-sm text-slate-500">{frame.material} • {frame.size}</p>
+                <p className="mt-1 text-sm text-slate-500">
+                  {frame.material} • {frame.size}
+                </p>
                 <p className="mt-3 text-2xl font-semibold text-primary">{formatVnd(frame.price)}</p>
               </div>
 
               <div className="rounded-3xl border border-border bg-background p-4">
-                <p className="text-xs uppercase tracking-[0.18em] text-muted-foreground">Gợi ý phù hợp</p>
+                <p className="text-xs uppercase tracking-[0.18em] text-muted-foreground">
+                  Gợi ý phù hợp
+                </p>
                 <div className="mt-3 flex items-center gap-3">
                   <div className="grid h-11 w-11 place-items-center rounded-2xl bg-primary/10 text-primary">
                     <Heart className="h-5 w-5" />
@@ -676,7 +720,9 @@ export function ArTryOn({ products }: { products: CatalogProduct[] }) {
               </div>
 
               <div className="rounded-3xl border border-border bg-background p-4">
-                <p className="text-xs uppercase tracking-[0.18em] text-muted-foreground">Tùy chọn nhanh</p>
+                <p className="text-xs uppercase tracking-[0.18em] text-muted-foreground">
+                  Tùy chọn nhanh
+                </p>
                 <div className="mt-3 space-y-3">
                   <button
                     type="button"
@@ -729,7 +775,11 @@ export function ArTryOn({ products }: { products: CatalogProduct[] }) {
         </aside>
       </div>
 
-      <CheckoutModal item={checkout} open={checkout !== null} onOpenChange={(open) => !open && setCheckout(null)} />
+      <CheckoutModal
+        item={checkout}
+        open={checkout !== null}
+        onOpenChange={(open) => !open && setCheckout(null)}
+      />
     </>
   );
 }

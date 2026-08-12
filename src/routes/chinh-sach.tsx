@@ -21,7 +21,6 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/vin-field";
 import { PageHero } from "@/components/page-hero";
 
-
 export const Route = createFileRoute("/chinh-sach")({
   head: () => ({
     meta: [
@@ -135,7 +134,8 @@ const GROUPS: PolicyGroup[] = [
     id: "do-mat",
     label: "Chính sách Đo mắt & Tròng kính",
     icon: Eye,
-    intro: "Quy trình khúc xạ chuẩn phòng khám, thực hiện bởi kỹ thuật viên được đào tạo chuyên sâu.",
+    intro:
+      "Quy trình khúc xạ chuẩn phòng khám, thực hiện bởi kỹ thuật viên được đào tạo chuyên sâu.",
     items: [
       {
         q: "Đo mắt tại VIN Eyewear có mất phí không?",
@@ -183,7 +183,8 @@ const GROUPS: PolicyGroup[] = [
     id: "bao-mat",
     label: "Bảo mật thông tin",
     icon: ShieldCheck,
-    intro: "Dữ liệu cá nhân và hồ sơ khúc xạ của bạn được lưu trữ an toàn, chỉ dùng cho mục đích chăm sóc.",
+    intro:
+      "Dữ liệu cá nhân và hồ sơ khúc xạ của bạn được lưu trữ an toàn, chỉ dùng cho mục đích chăm sóc.",
     items: [
       {
         q: "VIN Eyewear thu thập những thông tin gì?",
@@ -215,11 +216,7 @@ function Policy() {
   const searching = term.length > 0;
   const results = (searching ? GROUPS : [active]).flatMap((g) =>
     g.items
-      .filter(
-        (item) =>
-          !searching ||
-          `${g.label} ${item.q} ${item.a}`.toLowerCase().includes(term),
-      )
+      .filter((item) => !searching || `${g.label} ${item.q} ${item.a}`.toLowerCase().includes(term))
       .map((item) => ({ ...item, group: g.label, key: `${g.id}-${item.q}` })),
   );
 
@@ -232,7 +229,6 @@ function Policy() {
         crumbs={[{ label: "Chính sách & Hỗ trợ" }]}
         lead="VIN Eyewear đồng hành cùng thị lực và phong cách của bạn — bảo hành trọn đời, đổi mẫu 7 ngày và đồng kiểm khi nhận hàng."
       />
-
 
       {/* Highlights */}
       <section className="section-vin">

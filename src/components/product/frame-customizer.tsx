@@ -13,8 +13,20 @@ export const FRAME_COLORS = [
 
 export const LENS_TYPES = [
   { id: "clear", label: "Tròng trong", color: "#e8f1f7", opacity: 0.25, roughness: 0.05 },
-  { id: "photochromic", label: "Đổi màu (photochromic)", color: "#6b5f8a", opacity: 0.55, roughness: 0.08 },
-  { id: "polarized", label: "Chống chói (polarized)", color: "#2f3a46", opacity: 0.7, roughness: 0.02 },
+  {
+    id: "photochromic",
+    label: "Đổi màu (photochromic)",
+    color: "#6b5f8a",
+    opacity: 0.55,
+    roughness: 0.08,
+  },
+  {
+    id: "polarized",
+    label: "Chống chói (polarized)",
+    color: "#2f3a46",
+    opacity: 0.7,
+    roughness: 0.02,
+  },
   { id: "blue", label: "Chống ánh sáng xanh", color: "#c9d8ff", opacity: 0.32, roughness: 0.06 },
 ] as const;
 

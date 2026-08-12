@@ -8,7 +8,6 @@ import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { PageHero } from "@/components/page-hero";
 
-
 const eventsQuery = queryOptions({ queryKey: ["events"], queryFn: () => getEvents() });
 
 const FILTERS = ["Tất cả", "TIN ƯU ĐÃI", "SỰ KIỆN", "SẢN PHẨM MỚI", "TRIỂN LÃM"] as const;
@@ -60,9 +59,7 @@ function Events() {
 
   const list = React.useMemo(
     () =>
-      active === "Tất cả"
-        ? events
-        : events.filter((e) => (e.category ?? "SỰ KIỆN") === active),
+      active === "Tất cả" ? events : events.filter((e) => (e.category ?? "SỰ KIỆN") === active),
     [events, active],
   );
 
@@ -104,14 +101,18 @@ function Events() {
         lead="Khám phá những câu chuyện độc bản và các cột mốc đáng nhớ trong hành trình của Vin Eyewear."
       />
 
-
       <div className="container-vin section-vin">
         {/* Mobile filter trigger */}
         <div className="mb-6 grid grid-cols-[minmax(0,1fr)_auto] items-center gap-4 lg:hidden">
           <p className="min-w-0 truncate text-sm text-muted-foreground">
             {list.length} bài viết · <span className="text-foreground">{active}</span>
           </p>
-          <Button variant="secondary" size="sm" onClick={() => setDrawer(true)} className="shrink-0">
+          <Button
+            variant="secondary"
+            size="sm"
+            onClick={() => setDrawer(true)}
+            className="shrink-0"
+          >
             <SlidersHorizontal className="mr-2 h-4 w-4" /> Bộ lọc
           </Button>
         </div>

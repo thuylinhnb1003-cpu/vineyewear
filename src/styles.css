@@ -37,7 +37,6 @@
   --text-6xl: 3.75rem; /* 60px */
   --text-6xl--line-height: 1.05;
 
-
   --radius-sm: 0px;
   --radius-md: 2px;
   --radius-lg: 2px;
@@ -68,6 +67,13 @@
   --color-caption: var(--caption);
   --color-ink: var(--ink);
   --color-on-ink: var(--on-ink);
+
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
 
   --shadow-card: 0 1px 2px rgb(26 18 20 / 0.05);
   --shadow-card-hover: 0 8px 24px rgb(26 18 20 / 0.18);
@@ -102,6 +108,14 @@
   --border: #c5bcb8; /* line */
   --input: #c5bcb8;
   --ring: rgb(128 26 32 / 0.55);
+
+  /* Admin dashboard sidebar — tối màu, tách biệt khỏi giao diện bán hàng */
+  --sidebar: #1a1214; /* ink */
+  --sidebar-foreground: #faf6f2; /* on-ink */
+  --sidebar-accent: #2c2124;
+  --sidebar-accent-foreground: #faf6f2;
+  --sidebar-border: #3a2c2f;
+  --sidebar-ring: rgb(201 122 128 / 0.55);
 }
 
 @layer base {
@@ -182,13 +196,14 @@
     }
   }
 
-
-
   h1,
   h2,
   h3 {
     font-family: var(--font-display);
-    font-feature-settings: "liga" 1, "kern" 1, "dlig" 1;
+    font-feature-settings:
+      "liga" 1,
+      "kern" 1,
+      "dlig" 1;
     font-optical-sizing: auto;
     color: var(--ink);
     text-wrap: balance;
@@ -322,7 +337,6 @@
 
 @keyframes reveal-up {
   from {
-
     opacity: 0;
     transform: translateY(16px);
   }

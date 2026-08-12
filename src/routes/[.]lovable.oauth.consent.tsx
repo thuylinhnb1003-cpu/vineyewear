@@ -10,7 +10,9 @@ type OAuthDetails = {
 };
 
 type OAuthApi = {
-  getAuthorizationDetails: (id: string) => Promise<{ data: OAuthDetails | null; error: Error | null }>;
+  getAuthorizationDetails: (
+    id: string,
+  ) => Promise<{ data: OAuthDetails | null; error: Error | null }>;
   approveAuthorization: (id: string) => Promise<{ data: OAuthDetails | null; error: Error | null }>;
   denyAuthorization: (id: string) => Promise<{ data: OAuthDetails | null; error: Error | null }>;
 };
@@ -22,7 +24,7 @@ function oauthApi(): OAuthApi {
 export const Route = createFileRoute("/.lovable/oauth/consent")({
   ssr: false,
   validateSearch: (s: Record<string, unknown>) => ({
-    authorization_id: typeof s['authorization_id'] === "string" ? s['authorization_id'] : "",
+    authorization_id: typeof s["authorization_id"] === "string" ? s["authorization_id"] : "",
   }),
   beforeLoad: async ({ search, location }) => {
     if (!search.authorization_id) throw new Error("Thiếu authorization_id");
@@ -86,7 +88,10 @@ function ConsentPage() {
           lịch đo khúc xạ thay bạn tại Vin Eyewear.
         </p>
         {error && (
-          <p role="alert" className="mt-4 rounded-md bg-destructive/10 px-3 py-2 text-sm text-destructive">
+          <p
+            role="alert"
+            className="mt-4 rounded-md bg-destructive/10 px-3 py-2 text-sm text-destructive"
+          >
             {error}
           </p>
         )}
@@ -94,7 +99,12 @@ function ConsentPage() {
           <Button className="flex-1" disabled={busy} onClick={() => decide(true)}>
             {busy ? "Đang xử lý..." : "Đồng ý"}
           </Button>
-          <Button variant="outline" className="flex-1" disabled={busy} onClick={() => decide(false)}>
+          <Button
+            variant="outline"
+            className="flex-1"
+            disabled={busy}
+            onClick={() => decide(false)}
+          >
             Từ chối
           </Button>
         </div>

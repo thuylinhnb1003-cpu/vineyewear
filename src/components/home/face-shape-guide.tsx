@@ -48,7 +48,6 @@ export function FaceShapeGuide() {
             ))}
           </div>
 
-
           <div className="self-start border border-border bg-card p-8">
             <p className="micro-label">Gợi ý cho mặt {active.label.toLowerCase()}</p>
             <h3 className="mt-2 font-display text-2xl font-semibold">Dáng gọng phù hợp</h3>

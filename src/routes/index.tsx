@@ -16,7 +16,6 @@ import { getCatalog, getEvents } from "@/lib/shop.functions";
 import { formatDate } from "@/lib/format";
 import storeImage from "@/assets/store-interior.jpg";
 
-
 const homeQuery = queryOptions({
   queryKey: ["home"],
   queryFn: async () => {
@@ -34,10 +33,14 @@ export const Route = createFileRoute("/")({
         content:
           "Mua gọng kính, kính mát, tròng kính chính hãng và đặt lịch đo khúc xạ miễn phí tại Vin Eyewear.",
       },
-      { property: "og:title", content: "Vin Eyewear — Kính mắt chính hãng & đo khúc xạ tại Hà Nội" },
+      {
+        property: "og:title",
+        content: "Vin Eyewear — Kính mắt chính hãng & đo khúc xạ tại Hà Nội",
+      },
       {
         property: "og:description",
-        content: "Mua gọng kính, kính mát, tròng kính chính hãng và đặt lịch đo khúc xạ miễn phí tại Vin Eyewear.",
+        content:
+          "Mua gọng kính, kính mát, tròng kính chính hãng và đặt lịch đo khúc xạ miễn phí tại Vin Eyewear.",
       },
     ],
   }),
@@ -47,12 +50,23 @@ export const Route = createFileRoute("/")({
   component: Home,
 });
 
-
 const PROCESS = [
-  { step: "01", title: "Tiếp nhận & khai thác", desc: "Ghi nhận tiền sử thị lực và nhu cầu sử dụng." },
+  {
+    step: "01",
+    title: "Tiếp nhận & khai thác",
+    desc: "Ghi nhận tiền sử thị lực và nhu cầu sử dụng.",
+  },
   { step: "02", title: "Đo khúc xạ", desc: "Máy đo tự động kết hợp thử kính chủ quan." },
-  { step: "03", title: "Thử tròng & tư vấn gọng", desc: "Chọn chất liệu tròng và dáng gọng phù hợp." },
-  { step: "04", title: "Lắp kính & hiệu chỉnh", desc: "Cân chỉnh trục, tâm mắt và lưu hồ sơ khúc xạ." },
+  {
+    step: "03",
+    title: "Thử tròng & tư vấn gọng",
+    desc: "Chọn chất liệu tròng và dáng gọng phù hợp.",
+  },
+  {
+    step: "04",
+    title: "Lắp kính & hiệu chỉnh",
+    desc: "Cân chỉnh trục, tâm mắt và lưu hồ sơ khúc xạ.",
+  },
 ];
 
 function Home() {
@@ -274,7 +288,6 @@ function Home() {
                 </Reveal>
               ))}
             </ul>
-
           </div>
         </section>
       )}
@@ -304,4 +317,3 @@ function Home() {
     </>
   );
 }
-

@@ -23,7 +23,12 @@ export default defineTool({
     time_slot: z.string().describe("Time slot, e.g. 09:00."),
     note: z.string().describe("Optional note for the store.").optional(),
   },
-  annotations: { readOnlyHint: false, destructiveHint: false, idempotentHint: false, openWorldHint: false },
+  annotations: {
+    readOnlyHint: false,
+    destructiveHint: false,
+    idempotentHint: false,
+    openWorldHint: false,
+  },
   handler: async (input, ctx) => {
     if (!ctx.isAuthenticated()) {
       return { content: [{ type: "text", text: "Not authenticated" }], isError: true };
@@ -49,7 +54,12 @@ export default defineTool({
       .single();
     if (error) return { content: [{ type: "text", text: error.message }], isError: true };
     return {
-      content: [{ type: "text", text: `Đã đặt lịch ${data.code} vào ${data.appointment_date} ${data.time_slot}.` }],
+      content: [
+        {
+          type: "text",
+          text: `Đã đặt lịch ${data.code} vào ${data.appointment_date} ${data.time_slot}.`,
+        },
+      ],
       structuredContent: { appointment: data },
     };
   },

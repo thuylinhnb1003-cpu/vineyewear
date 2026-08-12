@@ -20,7 +20,9 @@ export default defineTool({
     const take = Math.min(Math.max(limit ?? 10, 1), 50);
     let q = supabaseAnon()
       .from("products")
-      .select("slug,name,brand,price,compare_at_price,status,frame_shape,material,gender,rating,review_count")
+      .select(
+        "slug,name,brand,price,compare_at_price,status,frame_shape,material,gender,rating,review_count",
+      )
       .eq("is_visible", true)
       .limit(take);
 

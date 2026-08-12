@@ -51,13 +51,15 @@ function ArPage() {
         <ul className="grid gap-3">
           {NOTES.map((note) => (
             <li key={note.text} className="flex gap-2 text-sm text-on-ink/70">
-              <note.icon className="mt-0.5 h-4 w-4 shrink-0 text-primary-light" aria-hidden="true" />
+              <note.icon
+                className="mt-0.5 h-4 w-4 shrink-0 text-primary-light"
+                aria-hidden="true"
+              />
               {note.text}
             </li>
           ))}
         </ul>
       </PageHero>
-
 
       <section className="section-vin bg-background">
         <div className="container-vin">

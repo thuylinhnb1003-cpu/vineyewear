@@ -169,7 +169,6 @@ export function ProductCard({ product }: { product: ProductLike }) {
             </Link>
           </Button>
         </div>
-
       </div>
 
       <QuickBuyDialog

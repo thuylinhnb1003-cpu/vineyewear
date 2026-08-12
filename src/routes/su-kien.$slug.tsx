@@ -16,7 +16,10 @@ export const Route = createFileRoute("/su-kien/$slug")({
   head: ({ loaderData }) => ({
     meta: [
       { title: `${loaderData?.title ?? "Sự kiện"} — Vin Eyewear` },
-      { name: "description", content: loaderData?.excerpt?.slice(0, 155) ?? "Sự kiện Vin Eyewear." },
+      {
+        name: "description",
+        content: loaderData?.excerpt?.slice(0, 155) ?? "Sự kiện Vin Eyewear.",
+      },
       { property: "og:title", content: `${loaderData?.title ?? "Sự kiện"} — Vin Eyewear` },
       {
         property: "og:description",

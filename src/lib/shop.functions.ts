@@ -52,7 +52,9 @@ export const getEvents = createServerFn({ method: "GET" }).handler(async () => {
   const { publicClient } = await import("./shop.server");
   const { data, error } = await publicClient()
     .from("events")
-    .select("id, slug, title, excerpt, content, cover_image, location, category, starts_at, ends_at")
+    .select(
+      "id, slug, title, excerpt, content, cover_image, location, category, starts_at, ends_at",
+    )
     .order("starts_at", { ascending: true });
   if (error) throw new Error(error.message);
   return data ?? [];
@@ -155,7 +157,9 @@ export const createOrder = createServerFn({ method: "POST" })
         note: z.string().max(500).optional(),
         userId: z.string().uuid().nullish(),
         items: z
-          .array(z.object({ productId: z.string().uuid(), quantity: z.number().int().min(1).max(20) }))
+          .array(
+            z.object({ productId: z.string().uuid(), quantity: z.number().int().min(1).max(20) }),
+          )
           .min(1),
       })
       .parse(input),
@@ -199,7 +203,8 @@ export const createOrder = createServerFn({ method: "POST" })
         customer_name: data.customerName,
         customer_phone: data.customerPhone,
         customer_email: data.customerEmail || null,
-        shipping_address: data.deliveryMethod === "shipping" ? (data.shippingAddress ?? null) : null,
+        shipping_address:
+          data.deliveryMethod === "shipping" ? (data.shippingAddress ?? null) : null,
         delivery_method: data.deliveryMethod,
         payment_method: data.paymentMethod,
         note: data.note ?? null,
@@ -209,7 +214,8 @@ export const createOrder = createServerFn({ method: "POST" })
       })
       .select("id, code")
       .single();
-    if (error || !order) return { ok: false as const, error: error?.message ?? "Không tạo được đơn." };
+    if (error || !order)
+      return { ok: false as const, error: error?.message ?? "Không tạo được đơn." };
 
     const { error: iErr } = await supabaseAdmin
       .from("order_items")

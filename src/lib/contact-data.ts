@@ -1,10 +1,4 @@
-import {
-  Car,
-  CreditCard,
-  Eye,
-  Wrench,
-  type LucideIcon,
-} from "lucide-react";
+import { Car, CreditCard, Eye, Wrench, type LucideIcon } from "lucide-react";
 
 /** Approximate coordinates per store code — used for distance display only. */
 export const STORE_COORDS: Record<string, { lat: number; lng: number }> = {

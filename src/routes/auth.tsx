@@ -6,21 +6,28 @@ import { supabase } from "@/integrations/supabase/client";
 import { lovable } from "@/integrations/lovable/index";
 
 function safeNext(value: unknown): string | undefined {
-  if (typeof value !== "string" || !value.startsWith("/") || value.startsWith("//")) return undefined;
+  if (typeof value !== "string" || !value.startsWith("/") || value.startsWith("//"))
+    return undefined;
   return value;
 }
 
 export const Route = createFileRoute("/auth")({
   validateSearch: (s: Record<string, unknown>) => {
-    const next = safeNext(s['next']);
+    const next = safeNext(s["next"]);
     return next ? { next } : {};
   },
   head: () => ({
     meta: [
       { title: "Đăng nhập / Đăng ký — Vin Eyewear" },
-      { name: "description", content: "Đăng nhập để theo dõi đơn hàng, lịch hẹn và sản phẩm yêu thích." },
+      {
+        name: "description",
+        content: "Đăng nhập để theo dõi đơn hàng, lịch hẹn và sản phẩm yêu thích.",
+      },
       { property: "og:title", content: "Đăng nhập — Vin Eyewear" },
-      { property: "og:description", content: "Tài khoản Vin Eyewear giúp bạn quản lý đơn hàng và lịch hẹn." },
+      {
+        property: "og:description",
+        content: "Tài khoản Vin Eyewear giúp bạn quản lý đơn hàng và lịch hẹn.",
+      },
     ],
   }),
   component: AuthPage,
@@ -101,75 +108,84 @@ function AuthPage() {
           </div>
           <ul className="mt-10 space-y-3 text-sm text-on-ink/70">
             <li className="border-t border-on-ink/15 pt-3">Theo dõi đơn hàng và lịch hẹn đo mắt</li>
-            <li className="border-t border-on-ink/15 pt-3">Lưu độ khúc xạ để đặt tròng nhanh hơn</li>
-            <li className="border-t border-on-ink/15 pt-3">Ưu đãi riêng cho khách hàng thân thiết</li>
+            <li className="border-t border-on-ink/15 pt-3">
+              Lưu độ khúc xạ để đặt tròng nhanh hơn
+            </li>
+            <li className="border-t border-on-ink/15 pt-3">
+              Ưu đãi riêng cho khách hàng thân thiết
+            </li>
           </ul>
         </aside>
 
         <div className="bg-card p-8 md:p-10">
-        <h1 className="font-display text-3xl">{mode === "login" ? "Đăng nhập" : "Tạo tài khoản"}</h1>
-        <p className="mt-2 text-sm text-muted-foreground">
-          Theo dõi đơn hàng, lịch hẹn và sản phẩm yêu thích của bạn.
-        </p>
+          <h1 className="font-display text-3xl">
+            {mode === "login" ? "Đăng nhập" : "Tạo tài khoản"}
+          </h1>
+          <p className="mt-2 text-sm text-muted-foreground">
+            Theo dõi đơn hàng, lịch hẹn và sản phẩm yêu thích của bạn.
+          </p>
 
-        <Button variant="outline" className="mt-5 w-full" onClick={onGoogle}>
-          Tiếp tục với Google
-        </Button>
+          <Button variant="outline" className="mt-5 w-full" onClick={onGoogle}>
+            Tiếp tục với Google
+          </Button>
 
-        <div className="my-4 flex items-center gap-3 text-xs text-caption">
-          <span className="h-px flex-1 bg-border" /> hoặc <span className="h-px flex-1 bg-border" />
-        </div>
+          <div className="my-4 flex items-center gap-3 text-xs text-caption">
+            <span className="h-px flex-1 bg-border" /> hoặc{" "}
+            <span className="h-px flex-1 bg-border" />
+          </div>
 
-        <form onSubmit={onSubmit} className="space-y-4">
-          {mode === "signup" && (
+          <form onSubmit={onSubmit} className="space-y-4">
+            {mode === "signup" && (
+              <div>
+                <Label htmlFor="fullName">Họ và tên</Label>
+                <Input
+                  id="fullName"
+                  value={fullName}
+                  onChange={(e) => setFullName(e.target.value)}
+                  required
+                />
+              </div>
+            )}
             <div>
-              <Label htmlFor="fullName">Họ và tên</Label>
+              <Label htmlFor="email">Email</Label>
               <Input
-                id="fullName"
-                value={fullName}
-                onChange={(e) => setFullName(e.target.value)}
+                id="email"
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
                 required
               />
             </div>
-          )}
-          <div>
-            <Label htmlFor="email">Email</Label>
-            <Input
-              id="email"
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
-            />
-          </div>
-          <div>
-            <Label htmlFor="password">Mật khẩu</Label>
-            <Input
-              id="password"
-              type="password"
-              minLength={6}
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-            />
-          </div>
-          {error && (
-            <p className="rounded-md bg-destructive/10 px-3 py-2 text-sm text-destructive">{error}</p>
-          )}
-          {message && (
-            <p className="rounded-md bg-primary-soft px-3 py-2 text-sm text-primary">{message}</p>
-          )}
-          <Button type="submit" className="w-full" disabled={busy}>
-            {busy ? "Đang xử lý..." : mode === "login" ? "Đăng nhập" : "Đăng ký"}
-          </Button>
-        </form>
+            <div>
+              <Label htmlFor="password">Mật khẩu</Label>
+              <Input
+                id="password"
+                type="password"
+                minLength={6}
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+              />
+            </div>
+            {error && (
+              <p className="rounded-md bg-destructive/10 px-3 py-2 text-sm text-destructive">
+                {error}
+              </p>
+            )}
+            {message && (
+              <p className="rounded-md bg-primary-soft px-3 py-2 text-sm text-primary">{message}</p>
+            )}
+            <Button type="submit" className="w-full" disabled={busy}>
+              {busy ? "Đang xử lý..." : mode === "login" ? "Đăng nhập" : "Đăng ký"}
+            </Button>
+          </form>
 
-        <button
-          className="mt-4 w-full text-sm font-semibold text-primary hover:underline"
-          onClick={() => setMode(mode === "login" ? "signup" : "login")}
-        >
-          {mode === "login" ? "Chưa có tài khoản? Đăng ký" : "Đã có tài khoản? Đăng nhập"}
-        </button>
+          <button
+            className="mt-4 w-full text-sm font-semibold text-primary hover:underline"
+            onClick={() => setMode(mode === "login" ? "signup" : "login")}
+          >
+            {mode === "login" ? "Chưa có tài khoản? Đăng ký" : "Đã có tài khoản? Đăng nhập"}
+          </button>
         </div>
       </div>
     </div>

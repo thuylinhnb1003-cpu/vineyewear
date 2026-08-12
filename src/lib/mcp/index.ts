@@ -9,7 +9,7 @@ import bookAppointment from "./tools/book-appointment";
 
 // The OAuth issuer must be the direct Supabase host; only the project ref
 // survives publish unchanged, so build the issuer from the inlined literal.
-const projectRef = import.meta.env['VITE_SUPABASE_PROJECT_ID'] ?? "project-ref-unset";
+const projectRef = import.meta.env["VITE_SUPABASE_PROJECT_ID"] ?? "project-ref-unset";
 
 export default defineMcp({
   name: "vin-eyewear",

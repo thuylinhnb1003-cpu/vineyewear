@@ -16,7 +16,6 @@ export const Route = createFileRoute("/dat-lich")({
     frame: typeof search["frame"] === "string" && search["frame"] ? search["frame"] : undefined,
   }),
   head: () => ({
-
     meta: [
       { title: "Đặt lịch đo mắt — Vin Eyewear" },
       {
@@ -147,142 +146,150 @@ function Booking() {
         crumbs={[{ label: "Đặt lịch" }]}
       />
       <div className="container-vin section-vin">
-      <div className="grid gap-10 lg:grid-cols-[minmax(0,1fr)_320px]">
-        <form onSubmit={onSubmit} className="space-y-6 border border-border bg-card p-6 shadow-card md:p-8">
-          <div>
-            <Label htmlFor="store">Cơ sở *</Label>
-            <Select id="store" value={storeId} onChange={(e) => setStoreId(e.target.value)} required>
-              {stores.map((store) => (
-                <option key={store.id} value={store.id}>
-                  {store.name} — {store.address}
-                </option>
-              ))}
-            </Select>
-          </div>
-
-          <div className="grid gap-4 sm:grid-cols-2">
+        <div className="grid gap-10 lg:grid-cols-[minmax(0,1fr)_320px]">
+          <form
+            onSubmit={onSubmit}
+            className="space-y-6 border border-border bg-card p-6 shadow-card md:p-8"
+          >
             <div>
-              <Label htmlFor="date">Ngày hẹn *</Label>
-              <Input
-                id="date"
-                type="date"
-                min={todayISO()}
-                value={date}
-                onChange={(e) => {
-                  setDate(e.target.value);
-                  setTimeSlot("");
-                }}
-                required
-              />
-            </div>
-            <div>
-              <Label htmlFor="service">Dịch vụ *</Label>
+              <Label htmlFor="store">Cơ sở *</Label>
               <Select
-                id="service"
-                value={serviceType}
-                onChange={(e) => setServiceType(e.target.value)}
+                id="store"
+                value={storeId}
+                onChange={(e) => setStoreId(e.target.value)}
+                required
               >
-                {SERVICE_TYPES.map((service) => (
-                  <option key={service} value={service}>
-                    {service}
+                {stores.map((store) => (
+                  <option key={store.id} value={store.id}>
+                    {store.name} — {store.address}
                   </option>
                 ))}
               </Select>
             </div>
-          </div>
 
-          <div>
-            <Label>Khung giờ *</Label>
-            <div className="grid grid-cols-3 gap-2 sm:grid-cols-5">
-              {TIME_SLOTS.map((slot) => {
-                const taken = bookedSlots.includes(slot);
-                return (
-                  <button
-                    key={slot}
-                    type="button"
-                    disabled={taken}
-                    onClick={() => setTimeSlot(slot)}
-                    className={`tap-target border py-2 text-sm font-semibold tabular-nums transition-colors ${
-                      timeSlot === slot
-                        ? "border-primary bg-primary text-primary-foreground"
-                        : taken
-                          ? "border-border bg-muted text-caption line-through"
-                          : "border-input hover:border-primary hover:text-primary"
-                    }`}
-                  >
-                    {slot}
-                  </button>
-                );
-              })}
+            <div className="grid gap-4 sm:grid-cols-2">
+              <div>
+                <Label htmlFor="date">Ngày hẹn *</Label>
+                <Input
+                  id="date"
+                  type="date"
+                  min={todayISO()}
+                  value={date}
+                  onChange={(e) => {
+                    setDate(e.target.value);
+                    setTimeSlot("");
+                  }}
+                  required
+                />
+              </div>
+              <div>
+                <Label htmlFor="service">Dịch vụ *</Label>
+                <Select
+                  id="service"
+                  value={serviceType}
+                  onChange={(e) => setServiceType(e.target.value)}
+                >
+                  {SERVICE_TYPES.map((service) => (
+                    <option key={service} value={service}>
+                      {service}
+                    </option>
+                  ))}
+                </Select>
+              </div>
             </div>
-            <p className="mt-2 text-xs text-caption">
-              Khung giờ gạch ngang đã có người đặt. Mỗi khung giờ nhận 1 lịch/cơ sở.
-            </p>
-          </div>
 
-          <div className="grid gap-4 sm:grid-cols-2">
             <div>
-              <Label htmlFor="name">Họ và tên *</Label>
-              <Input
-                id="name"
-                value={fullName}
-                onChange={(e) => setFullName(e.target.value)}
-                required
-                minLength={2}
-                placeholder="Nguyễn Văn A"
-              />
-            </div>
-            <div>
-              <Label htmlFor="phone">Số điện thoại *</Label>
-              <Input
-                id="phone"
-                value={phone}
-                onChange={(e) => setPhone(e.target.value)}
-                required
-                inputMode="tel"
-                placeholder="09xxxxxxxx"
-              />
-            </div>
-          </div>
-
-          <div>
-            <Label htmlFor="note">Ghi chú</Label>
-            <Textarea
-              id="note"
-              value={note}
-              onChange={(e) => setNote(e.target.value)}
-              placeholder="Ví dụ: cần tư vấn tròng chống ánh sáng xanh"
-            />
-          </div>
-
-          {error && (
-            <p className="rounded-md bg-destructive/10 px-3 py-2 text-sm text-destructive">
-              {error}
-            </p>
-          )}
-
-          <Button type="submit" size="lg" disabled={submitting} className="w-full sm:w-auto">
-            {submitting ? "Đang gửi..." : "Xác nhận đặt lịch"}
-          </Button>
-        </form>
-
-        <aside className="space-y-4">
-          <p className="micro-label">Cơ sở Vin Eyewear</p>
-          {stores.map((store) => (
-            <div key={store.id} className="border border-border bg-card p-5">
-              <h3 className="font-display text-lg">{store.name}</h3>
-              <p className="mt-2 flex gap-2 text-sm text-muted-foreground">
-                <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-primary" />
-                {store.address}
-              </p>
-              <p className="mt-1 flex gap-2 text-sm text-muted-foreground">
-                <Clock className="mt-0.5 h-4 w-4 shrink-0 text-primary" />
-                {store.open_hours}
+              <Label>Khung giờ *</Label>
+              <div className="grid grid-cols-3 gap-2 sm:grid-cols-5">
+                {TIME_SLOTS.map((slot) => {
+                  const taken = bookedSlots.includes(slot);
+                  return (
+                    <button
+                      key={slot}
+                      type="button"
+                      disabled={taken}
+                      onClick={() => setTimeSlot(slot)}
+                      className={`tap-target border py-2 text-sm font-semibold tabular-nums transition-colors ${
+                        timeSlot === slot
+                          ? "border-primary bg-primary text-primary-foreground"
+                          : taken
+                            ? "border-border bg-muted text-caption line-through"
+                            : "border-input hover:border-primary hover:text-primary"
+                      }`}
+                    >
+                      {slot}
+                    </button>
+                  );
+                })}
+              </div>
+              <p className="mt-2 text-xs text-caption">
+                Khung giờ gạch ngang đã có người đặt. Mỗi khung giờ nhận 1 lịch/cơ sở.
               </p>
             </div>
-          ))}
-        </aside>
-      </div>
+
+            <div className="grid gap-4 sm:grid-cols-2">
+              <div>
+                <Label htmlFor="name">Họ và tên *</Label>
+                <Input
+                  id="name"
+                  value={fullName}
+                  onChange={(e) => setFullName(e.target.value)}
+                  required
+                  minLength={2}
+                  placeholder="Nguyễn Văn A"
+                />
+              </div>
+              <div>
+                <Label htmlFor="phone">Số điện thoại *</Label>
+                <Input
+                  id="phone"
+                  value={phone}
+                  onChange={(e) => setPhone(e.target.value)}
+                  required
+                  inputMode="tel"
+                  placeholder="09xxxxxxxx"
+                />
+              </div>
+            </div>
+
+            <div>
+              <Label htmlFor="note">Ghi chú</Label>
+              <Textarea
+                id="note"
+                value={note}
+                onChange={(e) => setNote(e.target.value)}
+                placeholder="Ví dụ: cần tư vấn tròng chống ánh sáng xanh"
+              />
+            </div>
+
+            {error && (
+              <p className="rounded-md bg-destructive/10 px-3 py-2 text-sm text-destructive">
+                {error}
+              </p>
+            )}
+
+            <Button type="submit" size="lg" disabled={submitting} className="w-full sm:w-auto">
+              {submitting ? "Đang gửi..." : "Xác nhận đặt lịch"}
+            </Button>
+          </form>
+
+          <aside className="space-y-4">
+            <p className="micro-label">Cơ sở Vin Eyewear</p>
+            {stores.map((store) => (
+              <div key={store.id} className="border border-border bg-card p-5">
+                <h3 className="font-display text-lg">{store.name}</h3>
+                <p className="mt-2 flex gap-2 text-sm text-muted-foreground">
+                  <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-primary" />
+                  {store.address}
+                </p>
+                <p className="mt-1 flex gap-2 text-sm text-muted-foreground">
+                  <Clock className="mt-0.5 h-4 w-4 shrink-0 text-primary" />
+                  {store.open_hours}
+                </p>
+              </div>
+            ))}
+          </aside>
+        </div>
       </div>
     </>
   );

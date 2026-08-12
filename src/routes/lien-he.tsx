@@ -125,7 +125,6 @@ function Contact() {
         </div>
       </PageHero>
 
-
       {/* Store locator + map */}
       <section className="section-vin">
         <div className="container-vin">
@@ -157,14 +156,16 @@ function Contact() {
             <p className="eyebrow">Gửi yêu cầu</p>
             <h2 className="head-title display-section">Chúng tôi phản hồi trong 24 giờ làm việc</h2>
             <p className="head-lead max-w-lg lead-vin">
-              Để lại thông tin, bộ phận chăm sóc khách hàng sẽ liên hệ lại theo đúng chủ đề bạn chọn.
+              Để lại thông tin, bộ phận chăm sóc khách hàng sẽ liên hệ lại theo đúng chủ đề bạn
+              chọn.
             </p>
 
             {state === "sent" ? (
               <div className="mt-8 rounded-lg border border-primary bg-primary-soft p-6">
                 <h3 className="text-lg">Đã gửi thành công</h3>
                 <p className="mt-2 text-sm text-muted-foreground">
-                  Cảm ơn bạn! Chúng tôi sẽ phản hồi qua số điện thoại {form.phone} trong 24 giờ làm việc.
+                  Cảm ơn bạn! Chúng tôi sẽ phản hồi qua số điện thoại {form.phone} trong 24 giờ làm
+                  việc.
                 </p>
                 <Button className="mt-4" variant="secondary" onClick={() => setState("idle")}>
                   Gửi yêu cầu khác

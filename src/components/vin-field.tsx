@@ -4,9 +4,10 @@ import { cn } from "@/lib/utils";
 const base =
   "w-full rounded-sm border border-input bg-background px-3 py-2.5 text-sm text-foreground transition-colors placeholder:text-caption focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20 disabled:opacity-60";
 
-export const Input = React.forwardRef<HTMLInputElement, React.InputHTMLAttributes<HTMLInputElement>>(
-  ({ className, ...props }, ref) => <input ref={ref} className={cn(base, className)} {...props} />,
-);
+export const Input = React.forwardRef<
+  HTMLInputElement,
+  React.InputHTMLAttributes<HTMLInputElement>
+>(({ className, ...props }, ref) => <input ref={ref} className={cn(base, className)} {...props} />);
 Input.displayName = "Input";
 
 export const Select = React.forwardRef<

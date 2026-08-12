@@ -134,7 +134,9 @@ export function SiteFooter() {
 
       <div className="border-t border-on-ink/12">
         <div className="container-vin flex flex-col items-center justify-between gap-2 py-5 text-xs text-on-ink/50 sm:flex-row">
-          <p>© {new Date().getFullYear()} Vin Eyewear. Bản quyền thuộc {COMPANY_LEGAL.name}.</p>
+          <p>
+            © {new Date().getFullYear()} Vin Eyewear. Bản quyền thuộc {COMPANY_LEGAL.name}.
+          </p>
           <nav aria-label="Liên kết pháp lý" className="flex items-center gap-4">
             <Link to="/chinh-sach" className="transition-colors hover:text-primary-light">
               Bảo mật
