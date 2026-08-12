@@ -261,9 +261,9 @@ function ProductDetail() {
             >
               Thêm vào giỏ
             </Button>
-            <Button asChild size="lg" variant="secondary">
-              <Link to="/dat-lich">Đặt lịch đo khúc xạ</Link>
-            </Button>
+            <Link to="/dat-lich" className="text-primary hover:underline">
+              Đặt lịch đo khúc xạ
+            </Link>
             <Button variant="ghost" size="icon" aria-label="Yêu thích">
               <Heart className="h-5 w-5" />
             </Button>
