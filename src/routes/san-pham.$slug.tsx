@@ -261,9 +261,9 @@ function ProductDetail() {
             >
               Thêm vào giỏ
             </Button>
-            <Link to="/dat-lich" className="text-primary hover:underline">
+            {/* <Link to="/dat-lich" className="text-primary hover:underline">
               Đặt lịch đo khúc xạ
-            </Link>
+            </Link> */}
             <Button variant="ghost" size="icon" aria-label="Yêu thích">
               <Heart className="h-5 w-5" />
             </Button>
