@@ -472,7 +472,7 @@ export function CheckoutModal({
                 {submitting ? "Đang xử lý..." : "Xác nhận thanh toán"}
               </Button>
               <p className="mt-2 text-2xs leading-relaxed text-caption">
-                Dự kiến nhận hàng {eta} · Đổi trả 7 ngày · Bảo hành 12 tháng.
+                Dự kiến nhận hàng {eta} · Đổi trả 7 ngày · Bảo hành 24 tháng.
               </p>
             </aside>
           </form>

@@ -94,7 +94,7 @@ const GROUPS: PolicyGroup[] = [
       },
       {
         q: "Thời gian bảo hành lỗi nhà sản xuất là bao lâu?",
-        a: "12 tháng kể từ ngày mua đối với gọng kính và tròng kính chính hãng: bong lớp phủ, gãy khớp bản lề, bong tróc màu do lỗi vật liệu.",
+        a: "24 tháng kể từ ngày mua đối với gọng kính và tròng kính chính hãng: bong lớp phủ, gãy khớp bản lề, bong tróc màu do lỗi vật liệu.",
       },
       {
         q: "Trường hợp nào không được bảo hành?",
