@@ -252,8 +252,12 @@ export const getMyAccount = createServerFn({ method: "GET" })
   .middleware([requireSupabaseAuth])
   .handler(async ({ context }) => {
     const { supabase, userId } = context;
-    const [profile, orders, appointments, favorites] = await Promise.all([
-      supabase.from("profiles").select("id, full_name, phone").eq("id", userId).maybeSingle(),
+    const [profile, orders, appointments, favorites, prescription] = await Promise.all([
+      supabase
+        .from("profiles")
+        .select("id, full_name, phone, address, date_of_birth")
+        .eq("id", userId)
+        .maybeSingle(),
       supabase
         .from("orders")
         .select(
@@ -263,19 +267,32 @@ export const getMyAccount = createServerFn({ method: "GET" })
         .order("created_at", { ascending: false }),
       supabase
         .from("appointments")
-        .select("id, code, appointment_date, time_slot, service_type, status, store_id")
+        .select(
+          "id, code, appointment_date, time_slot, service_type, status, store_id, stores(name)",
+        )
         .eq("user_id", userId)
         .order("appointment_date", { ascending: false }),
       supabase
         .from("favorites")
         .select("product_id, products(slug, name, price, images, status)")
         .eq("user_id", userId),
+      supabase
+        .from("prescriptions")
+        .select("od_sph, od_cyl, os_sph, os_cyl, updated_at")
+        .eq("user_id", userId)
+        .maybeSingle(),
     ]);
+    const allAppointments = appointments.data ?? [];
+    const examHistory = allAppointments
+      .filter((a) => a.status === "done" && a.service_type.includes("khúc xạ"))
+      .sort((a, b) => b.appointment_date.localeCompare(a.appointment_date));
     return {
       profile: profile.data ?? null,
       orders: orders.data ?? [],
-      appointments: appointments.data ?? [],
+      appointments: allAppointments,
+      examHistory,
       favorites: favorites.data ?? [],
+      prescription: prescription.data ?? null,
     };
   });
 
@@ -283,14 +300,48 @@ export const updateMyProfile = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((input) =>
     z
-      .object({ fullName: z.string().min(2).max(120), phone: z.string().min(8).max(20) })
+      .object({
+        fullName: z.string().min(2).max(120),
+        phone: z.string().min(8).max(20),
+        address: z.string().max(300).nullish(),
+        dateOfBirth: z.string().max(10).nullish(),
+      })
       .parse(input),
   )
   .handler(async ({ data, context }) => {
     const { error } = await context.supabase
       .from("profiles")
-      .update({ full_name: data.fullName, phone: data.phone })
+      .update({
+        full_name: data.fullName,
+        phone: data.phone,
+        address: data.address || null,
+        date_of_birth: data.dateOfBirth || null,
+      })
       .eq("id", context.userId);
+    if (error) return { ok: false as const, error: error.message };
+    return { ok: true as const };
+  });
+
+export const updateMyPrescription = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((input) =>
+    z
+      .object({
+        odSph: z.number().min(-30).max(30).nullish(),
+        odCyl: z.number().min(-10).max(10).nullish(),
+        osSph: z.number().min(-30).max(30).nullish(),
+        osCyl: z.number().min(-10).max(10).nullish(),
+      })
+      .parse(input),
+  )
+  .handler(async ({ data, context }) => {
+    const { error } = await context.supabase.from("prescriptions").upsert({
+      user_id: context.userId,
+      od_sph: data.odSph ?? null,
+      od_cyl: data.odCyl ?? null,
+      os_sph: data.osSph ?? null,
+      os_cyl: data.osCyl ?? null,
+    });
     if (error) return { ok: false as const, error: error.message };
     return { ok: true as const };
   });
