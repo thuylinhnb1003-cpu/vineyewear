@@ -2,18 +2,30 @@
 
 import { createLovableAuth } from "@lovable.dev/cloud-auth-js";
 import { supabase } from "../supabase/client";
-// oauthBrokerUrl mặc định là "/~oauth/initiate" (đường dẫn tương đối) — chỉ hoạt động
-// khi app được phục vụ sau hạ tầng Lovable. Khi deploy độc lập ra Vercel, đường dẫn này
-// không tồn tại nên bị 404. Trỏ thẳng về domain broker công khai của Lovable để hoạt động
-// bất kể site được lưu trữ ở đâu.
-const lovableAuth = createLovableAuth({
-  oauthBrokerUrl: "https://oauth.lovable.app/~oauth/initiate",
-});
+
+const lovableAuth = createLovableAuth();
 
 type SignInOptions = {
   redirect_uri?: string;
   extraParams?: Record<string, string>;
 };
+
+// oauthBrokerUrl mặc định "/~oauth/initiate" (đường dẫn tương đối) chỉ có thật khi app
+// được phục vụ sau hạ tầng riêng của Lovable — hạ tầng đó tự chặn và xử lý đường dẫn này.
+// Trỏ tuyệt đối sang "oauth.lovable.app" KHÔNG hoạt động: domain đó không phải broker
+// công khai, tự nó cũng trả 404 ở mọi đường dẫn (đã kiểm chứng, kể cả "/").
+// -> Ngoài iframe preview của Lovable (tức chạy độc lập, ví dụ trên Vercel), gọi thẳng
+// OAuth chuẩn của Supabase cho các provider Supabase đã bật sẵn (Google) — không phụ
+// thuộc hạ tầng Lovable, hoạt động ở bất kỳ domain nào.
+const SUPABASE_NATIVE_PROVIDERS = new Set(["google"]);
+
+function isInLovableIframe(): boolean {
+  try {
+    return window.self !== window.top;
+  } catch {
+    return true;
+  }
+}
 
 export const lovable = {
   auth: {
@@ -21,6 +33,15 @@ export const lovable = {
       provider: "google" | "apple" | "microsoft" | "lovable",
       opts?: SignInOptions,
     ) => {
+      if (!isInLovableIframe() && SUPABASE_NATIVE_PROVIDERS.has(provider)) {
+        const { error } = await supabase.auth.signInWithOAuth({
+          provider: provider as "google",
+          options: { redirectTo: opts?.redirect_uri ?? window.location.origin },
+        });
+        if (error) return { error };
+        return { error: null, redirected: true as const };
+      }
+
       const result = await lovableAuth.signInWithOAuth(provider, {
         redirect_uri: opts?.redirect_uri ?? window.location.origin,
         extraParams: {
